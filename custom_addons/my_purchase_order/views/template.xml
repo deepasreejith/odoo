@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_header_footer">
+        <t t-set="company" t-value="user.company_id"/>
+        <div t-attf-class="my_po#{company.id}_layout header" t-att-style="report_header_style"
+             t-att-data-oe-model="doc and doc._name"
+             t-att-data-oe-id="doc and doc.id"
+             t-att-data-oe-lang="doc and main_object.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <t row="0"/>
+        </div>
+    </template>
+
+    <template id="my_header_footer">
+        <t t-set="company" t-value="user.company_id"/>
+        <div t-attf-class="my_po#{company.id}_layout header">
+            <div class="my_header">
+                <div class="row1">
+                    <img t-att-src="image_data_url(res_company.logo)"/>
+
+                </div>
+            </div>
+        </div>
+        <div t-attf-class="footer o_standard_footer my_po#{company.id}_layout">
+            <div class="text-center" style="border-top: 1px solid black;">
+                <ul class="list-inline mb4">
+                    <div t-field="company.report_footer"/>
+                </ul>
+
+                <div t-if="report_type == 'pdf'" class="text-muted">
+                    Page:
+                    <span class="page"/>
+                    /
+                    <span class="topage"/>
+                </div>
+                <div t-if="report_type == 'pdf' and display_name_in_footer" class="text-muted">
+                    <span t-out="o.name">(document name)</span>
+                </div>
+            </div>
+        </div>
+
+    </template>
+</odoo>

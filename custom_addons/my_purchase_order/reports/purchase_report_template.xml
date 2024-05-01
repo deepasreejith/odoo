@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="my_po_layout">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <div class="header">
+            <div class="row" style="report_header_style">
+                <div class="row">
+                    <div class="col-5">
+                        <span t-if="company.company_details" t-field="company.company_details"/>
+                    </div>
+                    <div class="col-2 mb4">
+                        <img alt="img" t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                             style="max-height:90px;max-width: 100%;"/>
+                    </div>
+                    <div class="col-5 offset-2" style="margin-top: 2rem;">
+                        <h3>PURCHASE ORDER</h3>
+                        <p>PO#:
+                            <t t-esc="doc.name"/>
+                        </p>
+                        <t t-esc="doc.date_approve.strftime('%Y-%m-%d')"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="article o_report_layout_standard">
+            <t t-out="0"/>
+        </div>
+        <div class="footer o_standard_footer">
+            <div class="text-center">
+                <ul class="list-inline mb4">
+                    <span t-field="company.report_footer"/>
+                </ul>
+                <br/>
+                <p>Page
+                    <span class="page"/>
+                    /
+                    <span class="topage"/>
+                </p>
+            </div>
+        </div>
+
+    </template>
+
+    <template id="purchase_order_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="my_purchase_order.my_po_layout">
+                    <div class="row">
+                        <div class="col-6" style="">
+                            <h6>
+                                <strong>TO:</strong>
+                            </h6>
+                            <p style="margin-bottom: 5px;">
+                                <t t-esc="doc.partner_id.name"/>
+                            </p>
+                            <p style="margin-bottom: 5px;">
+                                <t t-esc="doc.partner_id.phone"/>
+                            </p>
+                            <p style="margin-bottom: 5px;">
+                                <t t-esc="doc.partner_id.state_id.name"/>
+                            </p>
+                            <p style="margin-bottom: 5px;">VAT:
+                                <t t-esc="doc.partner_id.vat"/>
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <p style="margin-bottom: 5px;">Payment Terms:
+                                <t t-esc="doc.payment_term_id.name"/>
+                            </p>
+                            <p style="margin-bottom: 5px;">Currency:
+                                <t t-esc="doc.currency_id.name"/>
+                            </p>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <table class="table" style="border-color:black;">
+                        <thead>
+                            <tr>
+                                <th>SI</th>
+                                <th>DESCRIPTION</th>
+                                <th>QTY</th>
+                                <th>UNIT PRICE</th>
+                                <th>VAT 15%</th>
+                                <th>TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="serial_number" t-value="1"/>
+                            <t t-foreach="doc.order_line" t-as="line">
+                                <tr>
+                                    <td>
+                                        <t t-esc="serial_number"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.product_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.product_qty"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.price_unit"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="'%.2f' % line.price_tax"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.price_total"/>
+                                    </td>
+                                </tr>
+                                <t t-set="serial_number" t-value="serial_number + 1"/>
+                            </t>
+
+                            <tr>
+                                <td class="total-row" colspan="4" style="font-weight: bold;">TOTAL</td>
+                                <td class="total-row2" colspan="2" style="font-weight: bold;">
+                                    <t t-esc="doc.amount_untaxed"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="total-row" colspan="4" style="font-weight: bold;">VAT</td>
+                                <td class="total-row2" colspan="2" style="font-weight: bold;">
+                                    <t t-esc="doc.amount_tax"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="total-row" colspan="4" style="font-weight: bold;">GRAND TOTAL</td>
+                                <td class="total-row2" colspan="2" style="color: red;font-weight: bold;">
+                                    <t t-esc="doc.amount_total"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <div>
+                        <h6>
+                            <strong>Important Note:</strong>
+                        </h6>
+                        <p>If requested items(s) in stock ,please let us know immediately by return fax or e-mail.
+                            <br/>Please make sure tha, Toners &amp; Ink cartridges should have at least one year
+                            validity.
+                        </p>
+                        <div class="row">
+                            <div class="col-6">
+                                <span>
+                                    <strong>Prepared By:DEEPA KH</strong>
+                                </span>
+                            </div>
+                            <div class="col-6">
+                                <span>
+                                    <strong>Approved By:</strong>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+            </t>
+        </t>
+    </template>
+</odoo>
