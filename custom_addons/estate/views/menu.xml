@@ -10,5 +10,9 @@
               name="Advertisement"
               parent="menu_estate_property_root"
               sequence="10"/>
+    <menuitem id="menu_settings"
+              name="Settings"
+              parent="menu_estate_property_root"
+              sequence="10"/>
 
 </odoo>

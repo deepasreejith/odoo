@@ -8,6 +8,7 @@
         'security/ir.model.access.csv',
         'views/menu.xml',
         'views/estate_property_views.xml',
+        'views/estate_property_type_view.xml',
     ],
     'assets':{
 

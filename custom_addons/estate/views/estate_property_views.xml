@@ -24,11 +24,15 @@
             <form string="Estate">
                 <sheet>
                     <div class="oe_structure">
+                        <h2>
+                            <field name="name"/>
+                        </h2>
                         <div class="row">
                             <div class="col-6">
                                 <group>
                                     <field name="postcode"/>
                                     <field name="date_availability"/>
+                                    <field name="property_type"/>
                                 </group>
                             </div>
                             <div class="col-6">
@@ -89,4 +93,5 @@
               parent="menu_advertisement"
               action="estate_property_action"
               sequence="10"/>
+
 </odoo>
