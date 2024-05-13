@@ -20,6 +20,7 @@ class EstateProperty(models.Model):
         selection=[('north', 'North'), ('south', 'South'), ('east', 'East'), ('west', 'West')],)
 
     property_type = fields.Many2one('estate.property.type',string='Property Type')
+    property_tag = fields.Many2many('estate.property.tag')
 
 
 

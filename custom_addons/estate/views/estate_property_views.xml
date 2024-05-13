@@ -27,6 +27,7 @@
                         <h2>
                             <field name="name"/>
                         </h2>
+                        <field name="property_tag" widget="many2many_tags"/>
                         <div class="row">
                             <div class="col-6">
                                 <group>
