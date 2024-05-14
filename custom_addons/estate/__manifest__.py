@@ -10,6 +10,7 @@
         'views/estate_property_views.xml',
         'views/estate_property_type_view.xml',
         'views/estate_property_tag.xml',
+        'views/estate_property_offer.xml',
     ],
     'assets':{
 

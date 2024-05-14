@@ -20,7 +20,8 @@ class EstateProperty(models.Model):
         selection=[('north', 'North'), ('south', 'South'), ('east', 'East'), ('west', 'West')],)
 
     property_type = fields.Many2one('estate.property.type',string='Property Type')
-    property_tag = fields.Many2many('estate.property.tag')
+    property_tag_ids = fields.Many2many('estate.property.tag')
+    offer_ids = fields.One2many('estate.property.offer', 'property_id', string='Offers')
 
 
 
