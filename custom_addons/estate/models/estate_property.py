@@ -1,5 +1,6 @@
 from odoo import fields, models, api
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError,ValidationError
+from odoo.tools.float_utils import float_compare, float_is_zero
 
 
 class EstateProperty(models.Model):
@@ -32,6 +33,11 @@ class EstateProperty(models.Model):
     salesperson = fields.Many2one('res.users', string='Salesperson', default=lambda self: self.env.user.id)
     buyer = fields.Char(string='Buyer')
 
+    _sql_constraints = [
+        ('positive_expected_price', 'CHECK(expected_price > 0)', 'Expected price must be strictly positive.'),
+        ('positive_selling_price', 'CHECK(selling_price >= 0)', 'Selling price must be positive or zero.'),
+
+    ]
     @api.depends("living_area", "garden_area")
     def _compute_total_area(self):
         for record in self:
@@ -66,7 +72,21 @@ class EstateProperty(models.Model):
         else:
             self.status = 'sold'
 
+    @api.constrains('selling_price', 'expected_price')
+    def _check_selling_price(self):
+        for property_record in self:
+            if property_record.selling_price is not None and property_record.expected_price:
+                if float_compare(property_record.selling_price, 0,
+                                 precision_digits=2) > 0:  # Check if selling price is not zero
+                    if float_compare(property_record.selling_price, 0.9 * property_record.expected_price,
+                                     precision_digits=2) < 0:
+                        raise ValidationError("Selling price cannot be lower than 90% of the expected price.")
 
-    '''def update_selling_price(self, price):
-        for record in self:
-            record.selling_price = price'''
+    ''' other method
+    @api.constrains('selling_price')
+    def _check_selling_price(self):
+        for property_record in self:
+            if property_record.selling_price and property_record.expected_price:
+                if property_record.selling_price < (0.9 * property_record.expected_price):
+                    raise ValidationError("Selling price cannot be lower than 90% of the expected price.")
+    '''
