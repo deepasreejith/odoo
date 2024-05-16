@@ -23,22 +23,23 @@
         <field name="arch" type="xml">
             <form string="Estate">
                 <header>
-                    <button name="action_set_cancel" string="CANCEL" type="object"/>
-                    <button name="action_set_sold" string="SOLD" type="object"/>
+                    <button name="action_set_cancel" string="CANCEL" type="object" invisible="status == 'sold'" />
+                    <button name="action_set_sold" string="SOLD" type="object" />
+                   <field name="status" widget="statusbar" statusbar_visible="new,offer_received,offer_accepted,sold" decoration-danger="status"/>
                 </header>
                 <sheet>
                     <div class="oe_structure">
                         <h2>
                             <field name="name"/>
                         </h2>
-                        <field name="property_tag_ids" widget="many2many_tags"/>
+                        <field name="property_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                         <div class="row">
                             <div class="col-6">
                                 <group>
                                     <field name="status"/>
                                     <field name="postcode"/>
                                     <field name="date_availability"/>
-                                    <field name="property_type"/>
+                                    <field name="property_type_id" options='{"no_open": True, "no_create": True}'/>
                                 </group>
                             </div>
                             <div class="col-6">
@@ -59,8 +60,8 @@
                                 <field name="living_area"/>
                                 <field name="garage"/>
                                 <field name="garden"/>
-                                <field name="garden_area"/>
-                                <field name="garden_orientation"/>
+                                <field name="garden_area" invisible = 'not garden'/>
+                                <field name="garden_orientation" invisible = 'not garden'/>
                                 <field name="total_area"/>
                             </group>
 

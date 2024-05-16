@@ -6,23 +6,55 @@
         <field name="arch" type="xml">
             <form string="Property Type">
                 <sheet>
-                    <h1>
+                    <h2>
+                        <field name="sequence"/>
                         <field name="name"/>
-                    </h1>
+                    </h2>
+                    <group>
+                        <field name="property_ids">
+                            <tree>
+                                <field name="name"/>
+                                <field name="expected_price"/>
+                                <field name="status"/>
+                            </tree>
+                        </field>
+                    </group>
                 </sheet>
+
+
             </form>
         </field>
     </record>
 
-     <record id="estate_property_type_action" model="ir.actions.act_window">
+    <record id="estate_property_type_view_tree" model="ir.ui.view">
+        <field name="name">estate.property.type.tree</field>
+        <field name="model">estate.property.type</field>
+        <field name="arch" type="xml">
+            <tree string="Estate">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="estate_property_type_action" model="ir.actions.act_window">
         <field name="name">Property Types</field>
         <field name="res_model">estate.property.type</field>
         <field name="view_mode">tree,form,search</field>
     </record>
 
-     <menuitem id="menu_properties_type"
+    <menuitem id="menu_properties_type"
               name="Property Types"
               parent="menu_settings"
               action="estate_property_type_action"
               sequence="10"/>
+
+    <data noupdate="1">
+        <record id="estate_property_type_sequence" model="ir.sequence">
+            <field name="name">estate property type sequence</field>
+            <field name="code">estate.property.type</field>
+            <field name="prefix">TY</field>
+            <field name="padding">5</field>
+        </record>
+    </data>
 </odoo>

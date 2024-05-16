@@ -6,12 +6,20 @@ from odoo.tools.float_utils import float_compare, float_is_zero
 class EstateProperty(models.Model):
     _name = "estate.property"
     _description = " estate property details"
-
+    _order = "id asc"
 
     name = fields.Char(string="Name", required=True)
     description = fields.Text(string="Description")
     postcode = fields.Char(string="PostCode")
-    status = fields.Char(string="Status", default="New")
+
+    status = fields.Selection([
+        ('new', 'New'),
+        ('offer_received', 'Offer Received'),
+        ('offer_accepted', 'Offer Accepted'),
+        ('sold', 'Sold'),
+        ('cancelled','Cancelled'),
+    ], string='Status', default='new', required=True)
+
     date_availability = fields.Date(string="Date Availability", default=fields.Date.today())
     expected_price = fields.Float(string="Expected Price", required=True)
     selling_price = fields.Float(string="Selling Price")
@@ -27,17 +35,28 @@ class EstateProperty(models.Model):
     total_area = fields.Float(string='Total Area(sqm)', readonly=True, compute="_compute_total_area")
     best_price = fields.Float(string='Best Offer', compute='compute_best_offer')
 
-    property_type = fields.Many2one('estate.property.type', string='Property Type')
+    property_type_id = fields.Many2one('estate.property.type', string='Property Type')
     property_tag_ids = fields.Many2many('estate.property.tag')
     offer_ids = fields.One2many('estate.property.offer', 'property_id', string='Offers')
     salesperson = fields.Many2one('res.users', string='Salesperson', default=lambda self: self.env.user.id)
     buyer = fields.Char(string='Buyer')
+
 
     _sql_constraints = [
         ('positive_expected_price', 'CHECK(expected_price > 0)', 'Expected price must be strictly positive.'),
         ('positive_selling_price', 'CHECK(selling_price >= 0)', 'Selling price must be positive or zero.'),
 
     ]
+
+    @api.depends('status')
+    def _compute_allow_add_offer(self):
+        for property in self:
+            if property.status in ['offer_accepted', 'sold', 'cancelled']:
+                property.allow_add_offer = False
+            else:
+                property.allow_add_offer = True
+
+    allow_add_offer = fields.Boolean(string='Allow Add Offer', compute='_compute_allow_add_offer', store=True)
     @api.depends("living_area", "garden_area")
     def _compute_total_area(self):
         for record in self:
@@ -62,13 +81,14 @@ class EstateProperty(models.Model):
 
     def action_set_cancel(self):
         if self.status == 'sold':
-            raise UserError("Cannot set sold on cancelled property.")
+            raise UserError("Cannot set cancelled on sold property.")
         else:
             self.status = 'cancelled'
 
     def action_set_sold(self):
+
         if self.status == 'cancelled':
-            raise UserError("Cannot set cancelled on sold property.")
+            raise UserError("Cannot set sold on cancelled property.")
         else:
             self.status = 'sold'
 
