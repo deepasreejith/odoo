@@ -4,14 +4,18 @@
         <field name="name">estate.property.tree</field>
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
-            <tree string="Estate">
-                <field name="name"/>
+            <tree string="Estate" decoration-success="status == 'offer_received'"
+                  decoration-bf="status == 'offer_accepted' and {'color': 'green', 'font-weight': 'bold'}"
+                  decoration-muted="status == 'sold'">
+                <field name="name" string="Title"/>
                 <field name="bedrooms"/>
                 <field name="living_area" string="Living area(squ mtr)"/>
                 <field name="postcode"/>
+                <field name="property_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 <field name="expected_price"/>
                 <field name="selling_price"/>
-                <field name="date_availability"/>
+                <field name="date_availability" optional="hide"/>
+                <field name="status" optional="hide"/>
 
             </tree>
         </field>
@@ -23,9 +27,10 @@
         <field name="arch" type="xml">
             <form string="Estate">
                 <header>
-                    <button name="action_set_cancel" string="CANCEL" type="object" invisible="status == 'sold'" />
-                    <button name="action_set_sold" string="SOLD" type="object" />
-                   <field name="status" widget="statusbar" statusbar_visible="new,offer_received,offer_accepted,sold" decoration-danger="status"/>
+                    <button name="action_set_cancel" string="CANCEL" type="object" invisible="status == 'sold'"/>
+                    <button name="action_set_sold" string="SOLD" type="object"/>
+                    <field name="status" widget="statusbar" statusbar_visible="new,offer_received,offer_accepted,sold"
+                           decoration-danger="status"/>
                 </header>
                 <sheet>
                     <div class="oe_structure">
@@ -60,8 +65,8 @@
                                 <field name="living_area"/>
                                 <field name="garage"/>
                                 <field name="garden"/>
-                                <field name="garden_area" invisible = 'not garden'/>
-                                <field name="garden_orientation" invisible = 'not garden'/>
+                                <field name="garden_area" invisible='not garden'/>
+                                <field name="garden_orientation" invisible='not garden'/>
                                 <field name="total_area"/>
                             </group>
 
@@ -89,6 +94,7 @@
                 <field name="name"/>
                 <field name="bedrooms"/>
                 <field name="facades"/>
+                <field name="living_area"/>
                 <field name="postcode"/>
                 <field name="expected_price"/>
                 <filter name="filter_date" string="Available"
