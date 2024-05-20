@@ -37,8 +37,8 @@ class EstateProperty(models.Model):
 
     property_type_id = fields.Many2one('estate.property.type', string='Property Type')
     property_tag_ids = fields.Many2many('estate.property.tag')
-    offer_ids = fields.One2many('estate.property.offer', 'property_id', string='Offers')
-    salesperson = fields.Many2one('res.users', string='Salesperson', default=lambda self: self.env.user.id)
+    offer_ids = fields.One2many('estate.property.offer', 'property_id', string='Offers', ondelete='cascade')
+    salesperson = fields.Many2one('res.users', string='Salesperson', default=lambda self: self.env.user.id, ondelete='cascade')
     buyer = fields.Char(string='Buyer')
 
 
@@ -48,6 +48,12 @@ class EstateProperty(models.Model):
 
     ]
 
+    def unlink(self):
+        for property in self:
+            if property.status not in ['new', 'cancelled']:
+                raise UserError("You cannot delete a property that is not in 'New' or 'Cancelled' status.")
+            # If status is 'new' or 'cancelled', continue with deletion
+        return super().unlink()
     @api.depends('status')
     def _compute_allow_add_offer(self):
         for property in self:
