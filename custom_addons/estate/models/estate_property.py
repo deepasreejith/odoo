@@ -39,7 +39,7 @@ class EstateProperty(models.Model):
     property_tag_ids = fields.Many2many('estate.property.tag')
     offer_ids = fields.One2many('estate.property.offer', 'property_id', string='Offers', ondelete='cascade')
     salesperson = fields.Many2one('res.users', string='Salesperson', default=lambda self: self.env.user.id, ondelete='cascade')
-    buyer = fields.Char(string='Buyer')
+    buyer_id = fields.Many2one('res.partner', string='Buyer')
 
 
     _sql_constraints = [
@@ -108,11 +108,3 @@ class EstateProperty(models.Model):
                                      precision_digits=2) < 0:
                         raise ValidationError("Selling price cannot be lower than 90% of the expected price.")
 
-    ''' other method
-    @api.constrains('selling_price')
-    def _check_selling_price(self):
-        for property_record in self:
-            if property_record.selling_price and property_record.expected_price:
-                if property_record.selling_price < (0.9 * property_record.expected_price):
-                    raise ValidationError("Selling price cannot be lower than 90% of the expected price.")
-    '''

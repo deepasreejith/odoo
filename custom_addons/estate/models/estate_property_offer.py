@@ -44,9 +44,8 @@ class EstatePropertyOffer(models.Model):
 
     def action_confirm(self):
         for record in self:
-            # record.property_id.update_selling_price(record.price)
             record.property_id.selling_price = record.price
-            record.property_id.buyer = record.partner_id.name
+            record.property_id.buyer_id = record.partner_id
             record.property_id.status = 'offer_accepted'
             record.write({'status': 'accepted'})
 
