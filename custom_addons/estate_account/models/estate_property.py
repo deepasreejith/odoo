@@ -27,7 +27,7 @@ class EstateProperty(models.Model):
                         }),
                         # Invoice line for administrative fees ($100.00)
                         Command.create({
-                           
+
                             'name': 'Administrative Fees',
                             'quantity': len(property.offer_ids),
                             'price_unit': administrative_fees,
