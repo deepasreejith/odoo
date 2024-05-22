@@ -26,9 +26,15 @@
                         <group>
                             <field name="ref"/>
                             <field name="gender"/>
+                             <field name="active" invisible="1"/>
                         </group>
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user" options="{'post_refresh': 'recipients'}"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
             </form>
         </field>
     </record>
@@ -42,6 +48,15 @@
                 <field name="age"/>
                 <field name="gender"/>
                 <field name="ref"/>
+                <filter name="filter_male" string="Male" domain="[('gender','=','male')]"/>
+                <filter name="filter_female" string="Female" domain="[('gender','=','female')]"/>
+                <separator />
+                <filter name="filter_kids" string="Kids" domain="[('age','&lt;=',10)]"/>
+                <separator />
+                <filter name="filter_archive" string="Archived" domain="[('active','=',False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Gender" name="group_by_gender" context="{'group_by':'gender'}"/>
+                </group>
             </search>
         </field>
     </record>
@@ -51,7 +66,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hospital.patient</field>
         <field name="view_mode">tree,form,search</field>
-        <field name="context">{}</field>
+        <field name="context">{'search_default_filter_male':1,'search_default_group_by_gender':1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 create first patient
