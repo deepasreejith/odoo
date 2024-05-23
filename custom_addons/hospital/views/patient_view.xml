@@ -21,6 +21,7 @@
                     <group>
                         <group>
                             <field name="name"/>
+                            <field name="date_of_birth"/>
                             <field name="age"/>
                         </group>
                         <group>
@@ -50,13 +51,16 @@
                 <field name="ref"/>
                 <filter name="filter_male" string="Male" domain="[('gender','=','male')]"/>
                 <filter name="filter_female" string="Female" domain="[('gender','=','female')]"/>
-                <separator />
-                <filter name="filter_kids" string="Kids" domain="[('age','&lt;=',10)]"/>
+<!--                <separator />-->
+<!--                <filter name="filter_kids" string="Kids" domain="[('age','&lt;=',10)]"/>-->
                 <separator />
                 <filter name="filter_archive" string="Archived" domain="[('active','=',False)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Gender" name="group_by_gender" context="{'group_by':'gender'}"/>
                 </group>
+                <searchpanel>
+                    <field name="gender"  enable_counters="1"/>
+                </searchpanel>
             </search>
         </field>
     </record>
