@@ -17,7 +17,13 @@
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <field name="state" widget="statusbar" nolabel="1" options="{'clickable': '1'}" statusbar_visible="draft,in_consultation,done" />
+                </header>
                 <sheet>
+                    <div>
+                        <field name="priority" widget="priority"/>
+                    </div>
                     <group>
                         <group>
                             <field name="patient_id"/>
@@ -28,13 +34,14 @@
                         </group>
                         <group>
                             <field name="booking_date"/>
+                            <button name="object_button" string="O button" type="object"  class="oe_highlight"/>
+                            <button name="%(hospital.action_hospital_patient)d" string="A Button" class="oe_highlight" type="action" confirm="Are you sure want to open patient action" help="On clicking this button you will be redirected to patient record"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Prescription" name="prescription">
                             <group>
-                                <field name="gender"/>
-                                <field name="appointment_time"/>
+                                <field name="prescription" placeholder="Enter your notes"/>
                             </group>
                         </page>
                         <page string="Pharmacy" name="pharmacy">
