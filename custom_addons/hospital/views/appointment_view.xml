@@ -4,10 +4,17 @@
         <field name="name">hospital.appointment.tree</field>
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree decoration-success="state == 'done'" sample="1" multi_edit="1">
                 <field name="patient_id"/>
                 <field name="appointment_time"/>
-                <field name="booking_date"/>
+                <field name="ref" optional="show"/>
+                <field name="gender" optional="hide"/>
+                <field name="doctor_id" widget="many2one_avatar_user"/>
+                <field name="booking_date" optional="show"/>
+                <field name="activity_ids" widget="list_activity"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'"
+                       decoration-warning="state == 'in_consultation'" decoration-info="state == 'draft'"
+                       decoration-danger="state == 'cancel'"/>
             </tree>
         </field>
     </record>
@@ -18,7 +25,17 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="state" widget="statusbar" nolabel="1" options="{'clickable': '1'}" statusbar_visible="draft,in_consultation,done" />
+                    <!--                    options="{'clickable': '1'}"-->
+                    <button name="action_in_consultation" string="In Consultation" type="object" class="oe_highlight"
+                            invisible="state != 'draft'"/>
+                    <button name="action_done" string="Mark as Done" data-hotkey="v" type="object" class="oe_highlight"
+                            invisible="state != 'in_consultation'"/>
+                    <button name="action_cancel" string="Cancel" data-hotkey="z" type="object" class="oe_highlight"
+                            invisible="state == 'done'"/>
+                    <button name="action_draft" string="Reset to Draft" type="object" class="oe_highlight"
+                            invisible="state in ['done','in_consultation','draft']"/>
+                    <field name="state" widget="statusbar" nolabel="1"
+                           statusbar_visible="draft,in_consultation,done,cancel"/>
                 </header>
                 <sheet>
                     <div>
@@ -29,24 +46,44 @@
                             <field name="patient_id"/>
                             <field name="ref"/>
                             <field name="gender"/>
-                            <field name="appointment_time"/>
+                            <field name="doctor_id" widget="many2one_avatar"/>
+                            <field name="appointment_time" default_focus='1'/>
 
                         </group>
                         <group>
+                            <field name="hide_sales_price" groups="base.group_no_one"/>
                             <field name="booking_date"/>
-                            <button name="object_button" string="O button" type="object"  class="oe_highlight"/>
-                            <button name="%(hospital.action_hospital_patient)d" string="A Button" class="oe_highlight" type="action" confirm="Are you sure want to open patient action" help="On clicking this button you will be redirected to patient record"/>
+                            <button name="object_button" string="O button" type="object" class="oe_highlight" groups="base.group_no_one"/>
+                            <button name="%(hospital.action_hospital_patient)d" string="A Button" class="oe_highlight"
+                                    type="action" confirm="Are you sure want to open patient action"
+                                    help="On clicking this button you will be redirected to patient record" groups="base.group_no_one"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Prescription" name="prescription">
                             <group>
-                                <field name="prescription" placeholder="Enter your notes"/>
+                                <field name="prescription" placeholder="Enter your notes"
+                                       options="{'collaborative': true,'resizable':true}"/>
+                                <field name="booking_date"/>
                             </group>
                         </page>
                         <page string="Pharmacy" name="pharmacy">
                             <group>
-                                <field name="booking_date"/>
+                                <field name="pharmacy_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="price_unit" column_invisible="context.get('parent.hide_sales_price', True)"/>
+                                        <field name="qty"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="product_id"/>
+                                            <field name="price_unit" column_invisible="context.get('parent.hide_sales_price', True)" />
+                                            <field name="qty"/>
+                                        </group>
+                                    </form>
+
+                                </field>
                             </group>
                         </page>
                     </notebook>

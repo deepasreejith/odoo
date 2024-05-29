@@ -2,7 +2,7 @@
     'name': 'Hospital Management System',
     'author': 'Deepa',
     'summary': 'Custom hospital management module',
-    'depends': ['mail'],
+    'depends': ['mail','product'],
     'sequence': -200,
     'data': [
         'security/ir.model.access.csv',
