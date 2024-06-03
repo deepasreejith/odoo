@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_purchase_config_settings_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.config.settings.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+        <field name="arch" type="xml">
+             <data>
+                <xpath expr="//block[@name='purchase_setting_container']" position="after">
+                    <block title="Notification Before (Days)" name="notification_before_settings">
+                        <setting id="notification_before_days" title="Notification Before (Days)" help="Set the number of days for send notification before purchase">
+                            <field name="notification_before" class="o_light_label"/>
+                        </setting>
+                    </block>
+                </xpath>
+            </data>
+        </field>
+    </record>
+</odoo>

@@ -1,12 +1,13 @@
-from odoo import fields,models,api
+from odoo import fields,models,api,_
+from odoo.exceptions import ValidationError
 
 class HospitalAppointment(models.Model):
     _name = 'hospital.appointment'
     _description = 'Hospital Appointment'
     _inherit = ['mail.thread','mail.activity.mixin']
-    _rec_name = 'patient_id'
+    _rec_name = 'ref'
 
-    patient_id = fields.Many2one('hospital.patient',string='Patient')
+    patient_id = fields.Many2one('hospital.patient',string='Patient',ondelete='restrict') # when using ondelete='cascade' then when patient delete its corresponding appointment deleted.
     appointment_time = fields.Datetime(string='Appointment Time',default=fields.Datetime.now)
     booking_date = fields.Date(string='Booking Date',default=fields.Date.context_today)
     gender = fields.Selection(related='patient_id.gender')
@@ -40,18 +41,37 @@ class HospitalAppointment(models.Model):
         }
     def action_in_consultation(self):
         for rec in self:
-            rec.state = 'in_consultation'
+            if rec.state == 'draft':
+                rec.state = 'in_consultation'
     def action_done(self):
         for rec in self:
             rec.state = 'done'
     def action_cancel(self):
-        for rec in self:
-            rec.state = 'cancel'
+        # for rec in self:
+        #     rec.state = 'cancel'
+        action = self.env.ref('hospital.action_cancel_appointment').read()[0]
+        print("test")
+        return action
 
     def action_draft(self):
         for rec in self:
             rec.state = 'draft'
 
+    @api.model
+    def create(self, vals):
+        vals['ref'] = self.env['ir.sequence'].next_by_code('hospital.appointment') or _('New')
+        return super(HospitalAppointment, self).create(vals)
+
+    def unlink(self):
+        if self.state != 'draft':
+            print(self.state)
+            raise ValidationError(_('You cannot delete appointment.'))
+        return super(HospitalAppointment, self).unlink()
+    def write(self, vals):
+
+        if not self.ref and not vals.get('ref'):
+            vals['ref'] = self.env['ir.sequence'].next_by_code('hospital.appointment') or _('New')
+        return super(HospitalAppointment, self).write(vals)
 
 class AppointmentPharmacyLines(models.Model):
     _name = 'appointment.pharmacy.lines'
