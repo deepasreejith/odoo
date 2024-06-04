@@ -1,20 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="action_mark_as_done" model="ir.actions.server">
+        <field name="name">Mark As Done</field>
+        <field name="model_id" ref="model_hospital_appointment"/>
+        <field name="binding_model_id" ref="model_hospital_appointment"/>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+            if record.state == 'in_consultation':
+                record.action_done()
+        </field>
+    </record>
     <record id="view_hospital_appointment_activity" model="ir.ui.view">
         <field name="name">hospital.appointment.activity</field>
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
             <activity string="Appointments">
-                    <field name="patient_id"/>
-                    <templates>
-                        <div t-name="activity-box">
-                            <img class="rounded" t-att-src="activity_image('hospital.appointment', 'image', record.patient_id.raw_value)" role="img" t-att-title="record.patient_id.value" t-att-alt="record.patient_id.value"/>
-                            <div class="ms-2">
-                                <field name="ref" display="full" class="o_text_block"/>
-                            </div>
+                <field name="patient_id"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <img class="rounded"
+                             t-att-src="activity_image('hospital.appointment', 'image', record.patient_id.raw_value)"
+                             role="img" t-att-title="record.patient_id.value" t-att-alt="record.patient_id.value"/>
+                        <div class="ms-2">
+                            <field name="ref" display="full" class="o_text_block"/>
                         </div>
-                    </templates>
-                </activity>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+    <record id="view_hospital_appointment_calendar" model="ir.ui.view">
+        <field name="name">hospital.appointment.calendar</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <calendar string="Appointment" create="0" mode="month" date_start="booking_date" date_delay="duration" color="state"  quick_create="0" >
+                <field name="patient_id" />
+                <field name="state" invisible="1" filters="1"/>
+            </calendar>
         </field>
     </record>
 
@@ -24,8 +48,9 @@
         <field name="arch" type="xml">
             <tree decoration-success="state == 'done'" sample="1" multi_edit="1" export_xlsx="0">
                 <header>
-                     <button name="action_in_consultation" string="In Consultation" type="object"/>
+                    <button name="action_in_consultation" string="In Consultation" type="object"/>
                 </header>
+                <field name="name"/>
                 <field name="patient_id"/>
                 <field name="appointment_time"/>
                 <field name="ref" optional="show"/>
@@ -36,13 +61,16 @@
                 <field name="state" widget="badge" decoration-success="state == 'done'"
                        decoration-warning="state == 'in_consultation'" decoration-info="state == 'draft'"
                        decoration-danger="state == 'cancel'"/>
-                 <button name="action_done"  class="fa fa-check btn-success"  type="object"  invisible="state != 'in_consultation'"/>
-                <button name="%(hospital.action_cancel_appointment)d" class="fa fa-times btn-danger" type="action" invisible="state != 'draft'"
-                             context="{'default_reason':'test','hide_appointment':1}"/>
+                <button name="action_done" class="fa fa-check btn-success" type="object"
+                        invisible="state != 'in_consultation'"/>
+                <button name="%(hospital.action_cancel_appointment)d" class="fa fa-times btn-danger" type="action"
+                        invisible="state != 'draft'"
+                        context="{'default_reason':'test','hide_appointment':1}"/>
                 <groupby name="patient_id">
-                    <button name="action_done" class="fa fa-check" type="object" />
+                    <button name="action_done" class="fa fa-check" type="object"/>
                     <button name="edit" type="edit" icon="fa-edit" title="Edit"/>
                 </groupby>
+                <field name="progress" widget="progressbar"/>
             </tree>
         </field>
     </record>
@@ -60,8 +88,8 @@
                             invisible="state != 'in_consultation'"/>
                     <button name="action_cancel" string="Cancel" data-hotkey="z" type="object" class="oe_highlight"
                             invisible="state == 'done'" context="{'default_reason':'test','hide_appointment':1}"/>
-<!--                     <button name="%(hospital.action_cancel_appointment)d" string="Cancel" data-hotkey="z" type="action" class="oe_highlight"-->
-<!--                            invisible="state == 'done'" context="{'default_reason':'test','hide_appointment':1}"/>-->
+                    <!--                     <button name="%(hospital.action_cancel_appointment)d" string="Cancel" data-hotkey="z" type="action" class="oe_highlight"-->
+                    <!--                            invisible="state == 'done'" context="{'default_reason':'test','hide_appointment':1}"/>-->
                     <button name="action_draft" string="Reset to Draft" type="object" class="oe_highlight"
                             invisible="state in ['done','in_consultation','draft']"/>
                     <field name="state" widget="statusbar" nolabel="1"
@@ -69,31 +97,38 @@
                 </header>
                 <sheet>
                     <div>
+                        <h2>
+                            <field name="name"/>
+                        </h2>
                         <field name="priority" widget="priority"/>
                     </div>
                     <group>
                         <group>
                             <field name="patient_id"/>
-                            <field name="ref"/>
+                            <field name="ref" readonly="1" force_save="1"/>
                             <field name="gender"/>
                             <field name="doctor_id" widget="many2one_avatar"/>
                             <field name="appointment_time" default_focus='1'/>
+                            <field name="duration"/>
+                            <field name="operation_id"/>
 
                         </group>
                         <group>
                             <field name="hide_sales_price" groups="base.group_no_one"/>
                             <field name="booking_date"/>
-                            <button name="object_button" string="O button" type="object" class="oe_highlight" groups="base.group_no_one"/>
+                            <button name="object_button" string="O button" type="object" class="oe_highlight"
+                                    groups="base.group_no_one"/>
                             <button name="%(hospital.action_hospital_patient)d" string="A Button" class="oe_highlight"
                                     type="action" confirm="Are you sure want to open patient action"
-                                    help="On clicking this button you will be redirected to patient record" groups="base.group_no_one"/>
+                                    help="On clicking this button you will be redirected to patient record"
+                                    groups="base.group_no_one"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Prescription" name="prescription">
 
-                                <field name="prescription" placeholder="Enter your notes"
-                                       options="{'collaborative': true,'resizable':true, 'codeview':true}" />
+                            <field name="prescription" placeholder="Enter your notes"
+                                   options="{'collaborative': true,'resizable':true, 'codeview':true}"/>
 
                         </page>
                         <page string="Pharmacy" name="pharmacy">
@@ -101,19 +136,25 @@
                                 <field name="pharmacy_line_ids">
                                     <tree editable="bottom">
                                         <field name="product_id"/>
-                                        <field name="price_unit" column_invisible="context.get('parent.hide_sales_price', True)"/>
+                                        <field name="price_unit"
+                                               column_invisible="context.get('parent.hide_sales_price', True)"/>
                                         <field name="qty"/>
                                     </tree>
                                     <form>
                                         <group>
                                             <field name="product_id"/>
-                                            <field name="price_unit" column_invisible="context.get('parent.hide_sales_price', True)" />
+                                            <field name="price_unit"
+                                                   column_invisible="context.get('parent.hide_sales_price', True)"/>
                                             <field name="qty"/>
                                         </group>
                                     </form>
 
                                 </field>
                             </group>
+                        </page>
+                        <page string="Progress" name="progress">
+                            <field name="progress" widget="percentpie"/>
+
                         </page>
                     </notebook>
                 </sheet>
@@ -141,7 +182,7 @@
         <field name="name">Appointments</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hospital.appointment</field>
-        <field name="view_mode">tree,form,search,activity</field>
+        <field name="view_mode">tree,form,search,activity,calendar</field>
         <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

@@ -7,8 +7,9 @@
             <tree export_xlsx="0">
                 <field name="ref"/>
                 <field name="name" string="Patient Name"/>
-                <field name="age"/>
+                <field name="age" avg="Average Age"/>
                 <field name="gender"/>
+                <field name="appointment_count" sum="Total Appointment"/>
                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
             </tree>
         </field>
@@ -20,40 +21,62 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <field name="image" widget="image" class="oe_avatar"/>
-                      <div class="oe_title">
-                            <h2 >
-                                 <field name="ref"/>
-                            </h2>
-                            <h2>
-                                <label for="name" string="Name" class="oe_edit_only"/>
-                                <field name="name"/>
-                            </h2>
+                    <div class="alert alert-info text-center o_form_header"
+                         role="alert" invisible="is_birthday == False">
+                        <a href="#" class="close" data-bs-dismiss="alert" aria-label="close" title="close">×</a>
+                        <div>
+                            <strong>
+                                Today is Birthday!
+                            </strong>
                         </div>
+                        <span>wish <field name="name" readonly="1"/>
+                        </span>
+                    </div>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h2>
+                            <field name="ref"/>
+                        </h2>
+                        <h2>
+                            <label for="name" string="Name" class="oe_edit_only"/>
+                            <field name="name"/>
+                        </h2>
+                    </div>
                     <group>
                         <group>
                             <field name="date_of_birth"/>
-                            <field name="age"/>
+                             <field name="age"/>
+                            <field name="is_birthday"/>
                             <field name="appointment_count"/>
                         </group>
                         <group>
 
-                            <field name="gender"  invisible="context.get('hide_gender')"/>
-                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                             <field name="active" invisible="1"/>
+                            <field name="gender" invisible="context.get('hide_gender')" widget="radio"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="active" invisible="1"/>
                         </group>
                         <group name="other_info" string="Other Information">
-                            <field name="parent_name"  invisible = "age > 18" />
+                            <group>
+                                <field name="parent_name" invisible="age > 18"/>
                             <field name="marital_status"/>
-                             <field name="partner_name" readonly="marital_status != 'married'" required="marital_status == 'married'"/>
+                            <field name="partner_name" readonly="marital_status != 'married'"
+                                   required="marital_status == 'married'"/>
+                            </group>
+                            <group>
+                                <field name="phone" widget="phone"/>
+                                <field name="email" widget="email"/>
+                                <field name="website" widget="url"/>
+                            </group>
+
                         </group>
                     </group>
                 </sheet>
                 <div class="oe_chatter">
-                        <field name="message_follower_ids" groups="base.group_user" options="{'post_refresh': 'recipients'}"/>
-                        <field name="activity_ids"/>
-                        <field name="message_ids"/>
-                    </div>
+                    <field name="message_follower_ids" groups="base.group_user"
+                           options="{'post_refresh': 'recipients'}"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
@@ -63,21 +86,22 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name" string="Patient Name" filter_domain="['|', ('name', 'ilike', self), ('ref', 'ilike', self)]"/>
+                <field name="name" string="Patient Name"
+                       filter_domain="['|', ('name', 'ilike', self), ('ref', 'ilike', self)]"/>
                 <field name="age"/>
                 <field name="gender"/>
                 <field name="ref"/>
                 <filter name="filter_male" string="Male" domain="[('gender','=','male')]"/>
                 <filter name="filter_female" string="Female" domain="[('gender','=','female')]"/>
-<!--                <separator />-->
-<!--                <filter name="filter_kids" string="Kids" domain="[('age','&lt;=',10)]"/>-->
-                <separator />
+                <!--                <separator />-->
+                <!--                <filter name="filter_kids" string="Kids" domain="[('age','&lt;=',10)]"/>-->
+                <separator/>
                 <filter name="filter_archive" string="Archived" domain="[('active','=',False)]"/>
                 <group expand="0" string="Group By">
                     <filter string="Gender" name="group_by_gender" context="{'group_by':'gender'}"/>
                 </group>
                 <searchpanel>
-                    <field name="gender"  enable_counters="1"/>
+                    <field name="gender" enable_counters="1"/>
                 </searchpanel>
             </search>
         </field>

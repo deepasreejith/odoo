@@ -1,12 +1,16 @@
 from odoo import fields,models,api,_
 from odoo.exceptions import ValidationError
+import random
 
 class HospitalAppointment(models.Model):
     _name = 'hospital.appointment'
     _description = 'Hospital Appointment'
     _inherit = ['mail.thread','mail.activity.mixin']
-    _rec_name = 'ref'
+    _rec_name = 'name'
+    _order = 'id desc'
 
+
+    name = fields.Char(string='Sequence',default='New')
     patient_id = fields.Many2one('hospital.patient',string='Patient',ondelete='restrict') # when using ondelete='cascade' then when patient delete its corresponding appointment deleted.
     appointment_time = fields.Datetime(string='Appointment Time',default=fields.Datetime.now)
     booking_date = fields.Date(string='Booking Date',default=fields.Date.context_today)
@@ -26,6 +30,23 @@ class HospitalAppointment(models.Model):
     doctor_id = fields.Many2one('res.users', string='Doctor')
     pharmacy_line_ids = fields.One2many('appointment.pharmacy.lines','appointment_id',string='Pharmacy Line')
     hide_sales_price = fields.Boolean(string='Hide sale Price')
+    operation_id = fields.Many2one('hospital.operation',string='Operation')
+    progress = fields.Integer(string='Progress',compute='_compute_progress')
+    duration = fields.Float(string='Duration')
+
+    @api.depends('state')
+    def _compute_progress(self):
+        for rec in self:
+            if rec.state == 'draft':
+                progress = random.randrange(0,25)
+            elif rec.state == 'in_consultation':
+                progress = random.randrange(25,75)
+            elif rec.state == 'done':
+                progress = 100
+            else:
+                progress = 0
+            rec.progress = progress
+
     @api.onchange('patient_id')
     def onchange_patient_id(self):
         self.ref = self.patient_id.ref
@@ -59,7 +80,7 @@ class HospitalAppointment(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['ref'] = self.env['ir.sequence'].next_by_code('hospital.appointment') or _('New')
+        vals['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment') or _('New')
         return super(HospitalAppointment, self).create(vals)
 
     def unlink(self):
