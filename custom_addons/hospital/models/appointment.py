@@ -33,7 +33,15 @@ class HospitalAppointment(models.Model):
     operation_id = fields.Many2one('hospital.operation',string='Operation')
     progress = fields.Integer(string='Progress',compute='_compute_progress')
     duration = fields.Float(string='Duration')
+    company_id = fields.Many2one('res.company',string='Company',default=lambda self:self.env.company)
+    currency_id = fields.Many2one('res.currency',related='company_id.currency_id')
+    total_price = fields.Monetary(string='Total Price', compute='_compute_total_price', currency_field='currency_id')
 
+    @api.depends('pharmacy_line_ids.price_subtotal')
+    def _compute_total_price(self):
+        for rec in self:
+            total = sum(line.price_subtotal for line in rec.pharmacy_line_ids)
+            rec.total_price = total
     @api.depends('state')
     def _compute_progress(self):
         for rec in self:
@@ -52,14 +60,23 @@ class HospitalAppointment(models.Model):
         self.ref = self.patient_id.ref
 
     def object_button(self):
-        print("Object button!!!!!!!!!!")
-        return {
-            'effect': {
-                'fadeout': 'slow',
-                'message': 'button clicked',
-                'type': 'rainbow_man',
-            }
-        }
+
+            # url action
+           return {
+               'type':'ir.actions.act_url',
+               'target':'self',
+               'url':'https://www.odoo.com/'
+           }
+
+
+        # return {
+        #     'effect': {
+        #         'fadeout': 'slow',
+        #         'message': 'button clicked',
+        #         'type': 'rainbow_man',
+        #     }
+        # }
+
     def action_in_consultation(self):
         for rec in self:
             if rec.state == 'draft':
@@ -77,6 +94,17 @@ class HospitalAppointment(models.Model):
     def action_draft(self):
         for rec in self:
             rec.state = 'draft'
+
+    def action_share_whatsapp(self):
+        if not self.patient_id.phone:
+            raise ValidationError(_('Patient has no whatsapp number.'))
+        message = "Hi *%s*, your *appointment* number is : %s,Thank you." % (self.patient_id.name,self.name)
+        whatsapp_url = 'https://web.whatsapp.com/send?phone=%s&text=%s' % (self.patient_id.phone,message)
+        return {
+            'type': 'ir.actions.act_url',
+            'target': 'new',
+            'url': whatsapp_url
+        }
 
     @api.model
     def create(self, vals):
@@ -102,3 +130,14 @@ class AppointmentPharmacyLines(models.Model):
     price_unit = fields.Float(string='Price',related='product_id.list_price')
     qty = fields.Integer(string='Quantity',default=1)
     appointment_id = fields.Many2one('hospital.appointment',string='Appointment')
+    currency_id = fields.Many2one('res.currency', related='appointment_id.currency_id')
+    price_subtotal = fields.Monetary(string='Subtotal',compute='_compute_subtotal',currency_field='currency_id')
+
+
+    @api.depends('price_unit','qty')
+    def _compute_subtotal(self):
+
+        for rec in self:
+            rec.price_subtotal = rec.price_unit * rec.qty
+
+

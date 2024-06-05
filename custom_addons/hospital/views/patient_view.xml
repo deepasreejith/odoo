@@ -21,6 +21,12 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="action_view_appointment"
+                                 icon="fa-star">
+                            <field string="Appointment" name="appointment_count" widget="statinfo"/>
+                        </button>
+                    </div>
                     <div class="alert alert-info text-center o_form_header"
                          role="alert" invisible="is_birthday == False">
                         <a href="#" class="close" data-bs-dismiss="alert" aria-label="close" title="close">×</a>
@@ -29,7 +35,8 @@
                                 Today is Birthday!
                             </strong>
                         </div>
-                        <span>wish <field name="name" readonly="1"/>
+                        <span>wish
+                            <field name="name" readonly="1"/>
                         </span>
                     </div>
                     <field name="image" widget="image" class="oe_avatar"/>
@@ -45,9 +52,8 @@
                     <group>
                         <group>
                             <field name="date_of_birth"/>
-                             <field name="age"/>
+                            <field name="age"/>
                             <field name="is_birthday"/>
-                            <field name="appointment_count"/>
                         </group>
                         <group>
 
@@ -58,9 +64,9 @@
                         <group name="other_info" string="Other Information">
                             <group>
                                 <field name="parent_name" invisible="age > 18"/>
-                            <field name="marital_status"/>
-                            <field name="partner_name" readonly="marital_status != 'married'"
-                                   required="marital_status == 'married'"/>
+                                <field name="marital_status"/>
+                                <field name="partner_name" readonly="marital_status != 'married'"
+                                       required="marital_status == 'married'"/>
                             </group>
                             <group>
                                 <field name="phone" widget="phone"/>

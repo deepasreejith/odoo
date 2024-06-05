@@ -8,14 +8,14 @@ class HospitalPatient(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
 
-    name = fields.Char(string='Name', tracking=True)
+    name = fields.Char(string='Name', tracking=1)
     image = fields.Image(string='Image')
     date_of_birth = fields.Date(string='Date of Birth')
     ref = fields.Char(string='Reference')
     age = fields.Integer(string='Age', compute='_compute_age',inverse='_inverse_compute_age',
-                         search='search_age',tracking=True)  # computed fields are nostored field.if we want to sore,store=True
+                         search='search_age', tracking=10)  # computed fields are nostored field.if we want to sore,store=True
     gender = fields.Selection([('male', 'Male'), ('female', 'Female'), ('other', 'Other')], string='Gender',
-                              tracking=True)
+                              tracking=15)
     active = fields.Boolean(string='Archive', default=True)
     tag_ids = fields.Many2many('patient.tag', string='Tags')
     appointment_count = fields.Integer(string='Appointment Count',compute = '_compute_appointment_count',store=True)
@@ -35,7 +35,7 @@ class HospitalPatient(models.Model):
     #         rec.appointment_count = self.env['hospital.appointment'].search_count([('patient_id','=',rec.id)])
     # using rea_group orm method below:
     def _compute_appointment_count(self):
-        appointment_group = self.env['hospital.appointment'].read_group(domain=[],fields=['patient_id'],group_by=['patient_id'])
+        appointment_group = self.env['hospital.appointment'].read_group(domain=[],fields=['patient_id'],groupby=['patient_id'])
 
         for appoinment in appointment_group:
             patient_id = appoinment.get('patient_id')[0]
@@ -108,3 +108,13 @@ class HospitalPatient(models.Model):
                     is_birthday = True
             rec.is_birthday = is_birthday
             print(rec.is_birthday)
+
+    def action_view_appointment(self):
+        return {
+            'name': _('Appointment'),
+            'view_mode': 'tree,form',
+            'domain': [('patient_id','=',self.id)],
+            'res_model': 'hospital.appointment',
+            'type': 'ir.actions.act_window',
+            'context': {'default_patient_id':self.id},
+        }
