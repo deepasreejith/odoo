@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+     <record id="action_confirm_appointments" model="ir.actions.server">
+        <field name="name">Confirm Appointment</field>
+        <field name="model_id" ref="model_hospital_appointment"/>
+        <field name="binding_model_id" ref="model_hospital_appointment"/>
+         <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">
+                action = records.action_done()
+            </field>
+    </record>
+
     <record id="action_mark_as_done" model="ir.actions.server">
         <field name="name">Mark As Done</field>
         <field name="model_id" ref="model_hospital_appointment"/>
@@ -86,7 +97,7 @@
                     <button name="action_in_consultation" string="In Consultation" type="object" class="oe_highlight"
                             invisible="state != 'draft'"/>
                     <button name="action_done" string="Mark as Done" data-hotkey="v" type="object" class="oe_highlight"
-                            invisible="state != 'in_consultation'"/>
+                            invisible="state in ['cancel','done']"/>
                     <button name="action_cancel" string="Cancel" data-hotkey="z" type="object" class="oe_highlight"
                             invisible="state == 'done'" context="{'default_reason':'test','hide_appointment':1}"/>
                     <!--                     <button name="%(hospital.action_cancel_appointment)d" string="Cancel" data-hotkey="z" type="action" class="oe_highlight"-->
@@ -95,6 +106,10 @@
                             icon="fa-whatsapp"/>
                     <button name="action_draft" string="Reset to Draft" type="object" class="oe_highlight"
                             invisible="state in ['done','in_consultation','draft']"/>
+                    <button name="action_url" string="Action URL" type="object" class="oe_highlight"
+                            />
+                    <button name="action_send_mail" string="Send Mail" type="object" class="oe_highlight"
+                            />
                     <field name="state" widget="statusbar" nolabel="1"
                            statusbar_visible="draft,in_consultation,done,cancel"/>
                 </header>
@@ -125,6 +140,8 @@
                                     type="action" confirm="Are you sure want to open patient action"
                                     help="On clicking this button you will be redirected to patient record"
                                     groups="base.group_no_one"/>
+                            <button name="notification_button" string="Notification button" type="object" class="oe_highlight"
+                                    groups="base.group_no_one"/>
                             <field name="company_id" />
                             <field name="currency_id"/>
                         </group>
@@ -140,9 +157,10 @@
                             <group>
                                 <field name="pharmacy_line_ids">
                                     <tree editable="bottom">
+                                        <field name="s_number"/>
                                         <field name="product_id"/>
-                                        <field name="price_unit" widget="monetary"
-                                               column_invisible="context.get('parent.hide_sales_price', True)"/>
+                                        <field name="price_unit" widget="monetary" options="{'field_digits': true}" />
+<!--                                               column_invisible="context.get('parent.hide_sales_price', True)"/>-->
                                         <field name="qty"/>
                                         <field name="currency_id" invisible="1"/>
                                         <field name="price_subtotal"  sum="Total"/>

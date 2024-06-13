@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_open_academy_tree" model="ir.ui.view">
+            <field name="name">open.academy.tree</field>
+            <field name="model">od_product.course</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_open_academy_form" model="ir.ui.view">
+            <field name="name">open.academy.form</field>
+            <field name="model">od_product.course</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                                <field name="responsible_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Sessions">
+                                <field name="session_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="start_date"/>
+                                        <field name="instructor_id"/>
+                                        <field name="duration"/>
+                                        <field name="seats"/>
+                                        <field name="attendees_id" widget="many2many_tags"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group string="General">
+                                                <field name="name"/>
+                                                <field name="seats"/>
+                                                <field name="instructor_id"/>
+                                                <field name="attendees_id"/>
+                                            </group>
+                                            <group string="Date">
+                                                <field name="duration"/>
+                                                <field name="start_date"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Description">
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_open_academy_search" model="ir.ui.view">
+            <field name="name">open.academy.search</field>
+            <field name="model">od_product.course</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Name"/>
+                    <field name="description" string="Description"/>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="open_academy_action" model="ir.actions.act_window">
+            <field name="name">Courses</field>
+            <field name="res_model">od_product.course</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="open_academy_root_menu_"
+                  name="Open Academy"
+                  sequence="0"/>
+        <menuitem
+                id="menu_open_academy"
+                name="Open Academy"
+                parent="open_academy_root_menu_"
+                sequence="0"/>
+        <menuitem
+                id="menu_open_academy_course"
+                name="Courses"
+                parent="menu_open_academy"
+                action="open_academy_action"
+                sequence="0"/>
+
+        <record id="view_open_academy_session_form" model="ir.ui.view">
+            <field name="name">open.academy.session.form</field>
+            <field name="model">od_product.session</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="start_date"/>
+                                <field name="instructor_id"/>
+                            </group>
+                            <group>
+                                <field name="duration"/>
+                                <field name="seats"/>
+                                <field name="course_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Attendees">
+                                <field name="attendees_id"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_academy_session_action" model="ir.actions.act_window">
+            <field name="name">Session</field>
+            <field name="res_model">od_product.session</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="menu_open_academy_session"
+                name="Sessions"
+                parent="menu_open_academy"
+                action="open_academy_session_action"
+                sequence="0"/>
+    </data>
+</odoo>

@@ -28,6 +28,8 @@ class HospitalPatient(models.Model):
     phone = fields.Char(string='Phone')
     email = fields.Char(string='Email')
     website = fields.Char(string='website')
+
+
     @api.depends('appointment_ids')
     # def _compute_appointment_count(self):
     #     for rec in self:

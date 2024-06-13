@@ -1,1 +1,1 @@
-from . import patient,appointment,patient_tag,res_config_settings,operation
+from . import patient,appointment,patient_tag,res_config_settings,operation,invoice_inheritance
