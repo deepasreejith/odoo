@@ -1,1 +1,1 @@
-from . import product_template,openacademy
+from . import product_template,openacademy,res_partner

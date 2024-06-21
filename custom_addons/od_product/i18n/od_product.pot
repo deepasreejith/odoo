@@ -1,0 +1,264 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* od_product
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-14 13:34+0000\n"
+"PO-Revision-Date: 2024-06-14 13:34+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: od_product
+#: model:ir.actions.report,print_report_name:od_product.course_print
+msgid "'Course - %s' % (object.name).replace('/', '')"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__active
+msgid "Active"
+msgstr ""
+
+#. module: od_product
+#: model_terms:ir.ui.view,arch_db:od_product.res_partner_inherit_view_form
+msgid "Attended Session"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_res_partner__session_id
+#: model:ir.model.fields,field_description:od_product.field_res_users__session_id
+msgid "Attended sessions"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__attendees_ids
+#: model_terms:ir.ui.view,arch_db:od_product.view_open_academy_session_form
+msgid "Attendees"
+msgstr ""
+
+#. module: od_product
+#. odoo-python
+#: code:addons/od_product/models/openacademy.py:0
+#, python-format
+msgid "Cannot set attendees as instructor."
+msgstr ""
+
+#. module: od_product
+#: model:ir.model,name:od_product.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__course_id
+#: model_terms:ir.ui.view,arch_db:od_product.view_session_search
+msgid "Course"
+msgstr ""
+
+#. module: od_product
+#: model_terms:ir.ui.view,arch_db:od_product.print_course
+msgid "Course-"
+msgstr ""
+
+#. module: od_product
+#: model:ir.actions.act_window,name:od_product.open_academy_action
+#: model:ir.ui.menu,name:od_product.menu_open_academy_course
+msgid "Courses"
+msgstr ""
+
+#. module: od_product
+#: model_terms:ir.actions.act_window,help:od_product.product_template_service_action
+msgid "Create a new product"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_course__create_uid
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_course__create_date
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: od_product
+#: model_terms:ir.ui.view,arch_db:od_product.view_open_academy_form
+msgid "Date"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_course__description
+#: model_terms:ir.ui.view,arch_db:od_product.view_open_academy_form
+#: model_terms:ir.ui.view,arch_db:od_product.view_open_academy_search
+msgid "Description"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_course__display_name
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__duration
+#: model_terms:ir.ui.view,arch_db:od_product.print_course
+msgid "Duration"
+msgstr ""
+
+#. module: od_product
+#: model_terms:ir.ui.view,arch_db:od_product.view_open_academy_form
+msgid "General"
+msgstr ""
+
+#. module: od_product
+#: model_terms:ir.ui.view,arch_db:od_product.view_session_search
+msgid "Group By"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_course__id
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__id
+msgid "ID"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__instructor_id
+#: model:ir.model.fields,field_description:od_product.field_res_partner__instructor
+#: model:ir.model.fields,field_description:od_product.field_res_users__instructor
+#: model_terms:ir.ui.view,arch_db:od_product.print_course
+#: model_terms:ir.ui.view,arch_db:od_product.view_session_search
+msgid "Instructor"
+msgstr ""
+
+#. module: od_product
+#: model_terms:ir.ui.view,arch_db:od_product.view_session_search
+msgid "Instructor id"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_course__write_uid
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_course__write_date
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_course__name
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__name
+#: model_terms:ir.ui.view,arch_db:od_product.print_course
+#: model_terms:ir.ui.view,arch_db:od_product.view_open_academy_search
+#: model_terms:ir.ui.view,arch_db:od_product.view_session_search
+msgid "Name"
+msgstr "اسم"
+
+#. module: od_product
+#: model:ir.ui.menu,name:od_product.menu_open_academy
+#: model:ir.ui.menu,name:od_product.open_academy_root_menu_
+msgid "Open Academy"
+msgstr "الأكاديمية المفتوحة"
+
+#. module: od_product
+#: model:ir.actions.report,name:od_product.course_print
+msgid "Print Course"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_product_product__processor
+#: model:ir.model.fields,field_description:od_product.field_product_template__processor
+#: model_terms:ir.ui.view,arch_db:od_product.product_template_inherit_search_view
+msgid "Processor"
+msgstr ""
+
+#. module: od_product
+#: model_terms:ir.ui.view,arch_db:od_product.product_template_inherit_search_view
+msgid "Processor Not Set"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model,name:od_product.model_product_template
+msgid "Product"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_course__responsible_id
+msgid "Responsible"
+msgstr ""
+
+#. module: od_product
+#: model_terms:ir.ui.view,arch_db:od_product.print_course
+msgid "Responsible:-"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__seats
+msgid "Seats"
+msgstr ""
+
+#. module: od_product
+#: model:ir.actions.act_window,name:od_product.product_template_service_action
+#: model:ir.ui.menu,name:od_product.menu_product_template_service_action
+msgid "Service Products"
+msgstr ""
+
+#. module: od_product
+#: model:ir.actions.act_window,name:od_product.open_academy_session_action
+#: model_terms:ir.ui.view,arch_db:od_product.view_session_calendar
+msgid "Session"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_course__session_ids
+#: model:ir.ui.menu,name:od_product.menu_open_academy_session
+#: model_terms:ir.ui.view,arch_db:od_product.view_open_academy_form
+msgid "Sessions"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__start_date
+#: model_terms:ir.ui.view,arch_db:od_product.print_course
+msgid "Start Date"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.fields,field_description:od_product.field_od_product_session__taken_seats
+msgid "Taken Seats"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.constraint,message:od_product.constraint_od_product_course_check_name_and_description
+msgid "The name and description are not make same."
+msgstr ""
+
+#. module: od_product
+#: model_terms:ir.actions.act_window,help:od_product.product_template_service_action
+msgid ""
+"You must define a product for everything you sell or purchase,\n"
+"                whether it's a storable product, a consumable or a service."
+msgstr ""
+
+#. module: od_product
+#: model:ir.model,name:od_product.model_od_product_course
+msgid "od_product.course"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model,name:od_product.model_od_product_session
+msgid "od_product.session"
+msgstr ""
+
+#. module: od_product
+#: model:ir.model.constraint,message:od_product.constraint_od_product_course_name_unique
+msgid "unique title!"
+msgstr ""

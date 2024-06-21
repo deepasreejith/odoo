@@ -8,6 +8,8 @@
         'security/ir.model.access.csv',
         'views/product_template_inherit_view.xml',
         'views/views.xml',
+        'views/res_partner.xml',
+        'reports/report.xml'
     ],
     'assets': {},
     'application': True

@@ -22,7 +22,6 @@
                                 <field name="name"/>
                             </group>
                             <group>
-                                <field name="description"/>
                                 <field name="responsible_id"/>
                             </group>
                         </group>
@@ -35,7 +34,7 @@
                                         <field name="instructor_id"/>
                                         <field name="duration"/>
                                         <field name="seats"/>
-                                        <field name="attendees_id" widget="many2many_tags"/>
+                                        <field name="attendees_ids" widget="many2many_tags"/>
                                     </tree>
                                     <form>
                                         <group>
@@ -43,7 +42,7 @@
                                                 <field name="name"/>
                                                 <field name="seats"/>
                                                 <field name="instructor_id"/>
-                                                <field name="attendees_id"/>
+                                                <field name="attendees_ids"/>
                                             </group>
                                             <group string="Date">
                                                 <field name="duration"/>
@@ -104,17 +103,18 @@
                             <group>
                                 <field name="name"/>
                                 <field name="start_date"/>
-                                <field name="instructor_id"/>
+                                <field name="instructor_id" domain="[('instructor','=',True)]"/>
                             </group>
                             <group>
                                 <field name="duration"/>
                                 <field name="seats"/>
                                 <field name="course_id"/>
+                                <field name="taken_seats"/>
                             </group>
                         </group>
                         <notebook>
                             <page string="Attendees">
-                                <field name="attendees_id"/>
+                                <field name="attendees_ids"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -122,10 +122,58 @@
             </field>
         </record>
 
+        <record id="view_session_tree" model="ir.ui.view">
+            <field name="name">session.tree</field>
+            <field name="model">od_product.session</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="duration == 2" decoration-danger="duration == 0">
+                    <field name="name"/>
+                    <field name="start_date"/>
+                    <field name="instructor_id" domain="[('instructor','=',True)]"/>
+                    <field name="duration"/>
+                    <field name="seats"/>
+                    <field name="course_id"/>
+                    <field name="taken_seats"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_session_calendar" model="ir.ui.view">
+            <field name="name">session.calendar</field>
+            <field name="model">od_product.session</field>
+            <field eval="2" name="priority"/>
+            <field name="arch" type="xml">
+                <calendar date_start="start_date" color="instructor_id"
+                          string="Session" >
+                     <field name="name"/>
+                    <field name="start_date"/>
+                    <field name="instructor_id" domain="[('instructor','=',True)]"/>
+                    <field name="duration"/>
+                    <field name="seats"/>
+                    <field name="course_id"/>
+                    <field name="taken_seats"/>
+                </calendar>
+            </field>
+        </record>
+        <record id="view_session_search" model="ir.ui.view">
+            <field name="name">open.session.search</field>
+            <field name="model">od_product.session</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Name" filter_domain="['|',('name','ilike',self),('course_id','ilike',self)]"/>
+                    <field name="instructor_id" string="Instructor id"/>
+                     <filter name="instructor_id" string="Instructor" domain="[('instructor_id', '=', uid)]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="course_id" string="Course"  context="{'group_by': 'course_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
         <record id="open_academy_session_action" model="ir.actions.act_window">
             <field name="name">Session</field>
             <field name="res_model">od_product.session</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,calendar,search</field>
+            <field name="context">{'search_default_course_id':1}</field>
         </record>
 
         <menuitem
