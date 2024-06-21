@@ -14,7 +14,7 @@ class HospitalAppointment(models.Model):
     patient_id = fields.Many2one('hospital.patient',string='Patient',ondelete='restrict') # when using ondelete='cascade' then when patient delete its corresponding appointment deleted.
     appointment_time = fields.Datetime(string='Appointment Time',default=fields.Datetime.now)
     booking_date = fields.Date(string='Booking Date',default=fields.Date.context_today)
-    gender = fields.Selection(related='patient_id.gender')
+    gender = fields.Selection(related='patient_id.gender') # if we want to store this related field we use store=True
     ref = fields.Char(string='Reference',help='Reference from  patient record')
     prescription = fields.Html(string='Prescription')
     priority = fields.Selection([

@@ -7,6 +7,7 @@ class HospitalPatient(models.Model):
     _description = 'Hospital Patient'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
+    _rec_names_search = ['name', 'ref']
 
     name = fields.Char(string='Name', tracking=1)
     image = fields.Image(string='Image')
@@ -29,7 +30,9 @@ class HospitalPatient(models.Model):
     email = fields.Char(string='Email')
     website = fields.Char(string='website')
 
-
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = f"[{rec.ref}] {rec.name}"
     @api.depends('appointment_ids')
     # def _compute_appointment_count(self):
     #     for rec in self:
