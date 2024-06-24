@@ -21,7 +21,7 @@
         'views/invoice_inheritance_view.xml',
         'report/patient_card_template.xml',
         'report/report.xml',
-
+        # 'report/sale_report_inherit.xml',
 
     ],
     'assets': {
