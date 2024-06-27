@@ -7,6 +7,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/school_view.xml',
+        'views/student_view.xml',
     ],
     'assets': {
 

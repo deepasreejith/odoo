@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="student_list_view" model="ir.ui.view">
+        <field name="name">student.list.view</field>
+        <field name="model">student.profile</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="school_id"/>
+                <field name="is_virtual_school"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="student_form_view" model="ir.ui.view">
+        <field name="name">student.form.view</field>
+        <field name="model">student.profile</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                             <field name="school_id"/>
+<!--                           domain="[('is_virtual_class','=',True)]"  options="{'no_create_edit': True,'no_create':True}"-->
+                            <field name="currency_id"/>
+                            <field name="student_fee"/>
+                            <field name="total_fee" widget="monetary"/>
+                        </group>
+                        <group>
+                            <field name="hobby_id"  widget="many2many_tags"/>
+                            <field name="is_virtual_school"/>
+                            <field name="ref_id"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_student_profile" model="ir.actions.act_window">
+        <field name="name">Student Profile</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">student.profile</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                create first student
+            </p>
+        </field>
+    </record>
+
+    <record id="student_hobby_list_view" model="ir.ui.view">
+        <field name="name">student.hobby.list.view</field>
+        <field name="model">student.hobby</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="student_hobby_form_view" model="ir.ui.view">
+        <field name="name">student.hobby.form.view</field>
+        <field name="model">student.hobby</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_student_hobby" model="ir.actions.act_window">
+        <field name="name">Hobby</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">student.hobby</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                create first student hobby
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="student_sub_menu"
+              name="Student Profile"
+              parent="school_root_menu"
+              sequence="0"/>
+
+    <menuitem id="student_profile_menu"
+              name="Student Profile"
+              parent="student_sub_menu"
+              action="action_student_profile"
+              sequence="0"/>
+
+    <menuitem id="student_hobby_menu"
+              name="Hobby"
+              parent="student_sub_menu"
+              action="action_student_hobby"
+              sequence="0"/>
+</odoo>

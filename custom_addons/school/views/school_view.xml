@@ -17,14 +17,40 @@
         <field name="model">school.profile</field>
         <field name="arch" type="xml">
             <form>
-                <group>
+                <sheet>
+                     <group>
                     <group>
                         <field name="name"/>
                         <field name="email"/>
+                        <field name="address"/>
                         <field name="phone"/>
+                        <field name="is_virtual_class"/>
+                    </group>
+                    <group>
+                        <field name="open_date"/>
+                        <field name="establish_date"/>
+                        <field name="result"/>
+                         <field name="school_type"/>
+                        <field name="auto_rank"/>
                     </group>
                 </group>
-
+                    <group>
+                        <field name="documents" filename="document_name"/>
+                        <field name="document_name" invisible="1" />
+                        <field name="school_image" widget="image" />
+                        <field name="school_description" />
+                    </group>
+                    <notebook>
+                        <page name="Student">
+                            <field name="student_ids" >
+                                <tree>
+                                     <field name="name"/>
+                                    <field name="hobby_id" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
             </form>
         </field>
     </record>
