@@ -5,8 +5,8 @@
         <field name="model">school.profile</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="email"/>
+                <field name="name" decoration-bf="1" optional="show"/>
+                <field name="email" decoration-info="1"/>
                 <field name="phone"/>
             </tree>
         </field>
@@ -17,6 +17,12 @@
         <field name="model">school.profile</field>
         <field name="arch" type="xml">
             <form>
+                <button name="create_stu_spec_command" type="object" string="special command create student"/>
+                 <button name="spec_command1" type="object" string="special command 1"/>
+                 <button name="spec_command2" type="object" string="special command 2"/>
+                 <button name="spec_command3" type="object" string="special command 3"/>
+                 <button name="spec_command4" type="object" string="special command 4"/>
+                <button name="spec_command5" type="object" string="special command 5"/>
                 <sheet>
                      <group>
                     <group>
@@ -44,6 +50,7 @@
                         <page name="Student">
                             <field name="student_ids" >
                                 <tree>
+                                    <field name="id"/>
                                      <field name="name"/>
                                     <field name="hobby_id" widget="many2many_tags"/>
                                 </tree>
@@ -55,11 +62,35 @@
         </field>
     </record>
 
+    <record id="school_search_view" model="ir.ui.view">
+        <field name="name">school.search.view</field>
+        <field name="model">school.profile</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="School Name"
+                       filter_domain="[ ('name', 'ilike', self)]"/>
+                <field name="email"/>
+                <field name="address"/>
+                <filter name="filter_is_virtual_class" string="virtual class" domain="[('is_virtual_class','=',True)]"/>
+
+                <separator/>
+
+                <group expand="0" string="Group By">
+                    <filter string="school type" name="group_by_school_type" context="{'group_by':'school_type'}"/>
+                </group>
+                <searchpanel>
+                    <field name="school_type"  icon="fa fa-filter"/>
+
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
     <record id="action_school_profile" model="ir.actions.act_window">
         <field name="name">School Profile</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">school.profile</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,search</field>
         <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -68,17 +99,6 @@
         </field>
     </record>
 
-    <menuitem id="school_root_menu"
-              name="School"
-              sequence="0"/>
-    <menuitem id="school_sub_menu"
-              name="School Profile"
-              parent="school_root_menu"
-              sequence="0"/>
 
-    <menuitem id="school_profile_menu"
-              name="School Profile"
-              parent="school_sub_menu"
-              action="action_school_profile"
-              sequence="0"/>
+
 </odoo>

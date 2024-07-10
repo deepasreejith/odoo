@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="school_root_menu"
+              name="School"
+              sequence="0"/>
+    <menuitem id="student_sub_menu"
+              name="Student Profile"
+              parent="school_root_menu"
+              sequence="0"/>
+
+    <menuitem id="student_fee_update_menu"
+              name="Fee Update"
+              parent="student_sub_menu"
+              action="student_fee_update_form_view_wizard_action"
+              sequence="10"/>
+    <menuitem id="school_sub_menu"
+              name="School Profile"
+              parent="school_root_menu"
+              sequence="0"/>
+
+
+    <menuitem id="school_profile_menu"
+              name="School Profile"
+              parent="school_sub_menu"
+              action="action_school_profile"
+              sequence="0"/>
+    <menuitem id="student_profile_menu"
+              name="Student Profile"
+              parent="student_sub_menu"
+              action="action_student_profile"
+              sequence="0"/>
+
+    <menuitem id="student_hobby_menu"
+              name="Hobby"
+              parent="student_sub_menu"
+              action="action_student_hobby"
+              sequence="0"/>
+</odoo>

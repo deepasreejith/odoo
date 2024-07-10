@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="student_2" model="student.profile">
+        <field name="name">Student2</field>
+        <field name="total_fee">455</field>
+        <field name="school_id" ref="school_2"/>
+        <field name="hobby_id" eval="[(6,0,[ref('hobby_1'),ref('hobby_2')])]"/>
+    </record>
+    <record id="student_3" model="student.profile">
+        <field name="name">Student3</field>
+        <field name="total_fee">555</field>
+        <field name="school_id" ref="school_3"/>
+    </record>
+    <record id="student_4" model="student.profile">
+        <field name="name">Student4</field>
+        <field name="total_fee">655</field>
+        <field name="school_id" ref="school_4"/>
+    </record>
+
+<!--this is another way of one 2 many field add via xml.the drawback is it not deleted previous records.we deleted manually-->
+<!--    <record id="school_5" model="school.profile">-->
+<!--        <field name="name">Safari</field>-->
+<!--        <field name="email">safari@email.com</field>-->
+<!--        <field name="phone">56422353356</field>-->
+<!--        <field name="student_ids" eval="[(0,0,{'name':'student51','total_fee':888}),(0,0,{'name':'student61','total_fee':998})]" />-->
+<!--    </record>-->
+   <function model="student.profile" name="_create_roll_no_sequences"
+    eval="('GG',)"/>
+
+</odoo>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--     <delete id="school.student_2" model="student.profile" />-->
+<!--     <delete id="school.school_3" model="school.profile" />-->
+<!--     -->
+     <delete model="student.hobby" search="[('name','ilike','Hobby')]" />
+</odoo>

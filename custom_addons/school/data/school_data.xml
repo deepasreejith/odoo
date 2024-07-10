@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="school_2" model="school.profile">
+        <field name="name">Almaya</field>
+        <field name="email">almaya@email.com</field>
+        <field name="phone">5645353356</field>
+    </record>
+     <record id="school_3" model="school.profile">
+        <field name="name">lulu</field>
+        <field name="email">lulu@email.com</field>
+        <field name="phone">56422353356</field>
+    </record>
+     <record id="school_4" model="school.profile">
+        <field name="name">viva</field>
+        <field name="email">viva@email.com</field>
+        <field name="phone">888853356</field>
+    </record>
+</odoo>

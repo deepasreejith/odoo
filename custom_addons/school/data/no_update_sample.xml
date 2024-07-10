@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="student_10" model="student.profile">
+        <field name="name">Student10</field>
+        <field name="total_fee">4115</field>
+        <field name="school_id" ref="school_2"/>
+    </record>
+</odoo>

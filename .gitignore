@@ -1,1 +1,6 @@
 /conf
+HOOKS
+1.pre_init_hook = we write this pre_init_hook method in manifest file.and corresponding calling function write in init.py file
+2.post_init_hook
+3.uninstall_hook
+4.post_load

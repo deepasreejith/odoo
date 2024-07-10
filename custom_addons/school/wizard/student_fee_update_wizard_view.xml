@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="student_fee_update_form_view_wizard" model="ir.ui.view">
+            <field name="name">student.fee.update.wizard</field>
+            <field name="model">student.fee.update.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="total_fee"/>
+                        </group>
+                    </group>
+
+                    <footer>
+                        <button string="Update Fee" name="update_fee" type="object" class="oe_highlight"
+                                data-hotkey="q"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="x"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="student_fee_update_form_view_wizard_action" model="ir.actions.act_window">
+            <field name="name">student fee wizard</field>
+            <field name="res_model">student.fee.update.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="student_fee_update_action_window" model="ir.actions.act_window">
+            <field name="name">student fee update</field>
+            <field name="res_model">student.fee.update.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="school.student_fee_update_form_view_wizard"/>
+            <field name="binding_model_id" ref="model_student_profile"/>
+            <field name="binding_view_types">form,list</field>
+        </record>
+
+
+    </data>
+</odoo>

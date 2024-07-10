@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="school_demo1" model="school.profile">
+            <field name="name">Demo school1</field>
+        </record>
+        <record id="demo_school_2" model="school.profile">
+            <field name="name">Demo school2</field>
+        </record>
+    </data>
+</odoo>
