@@ -24,6 +24,13 @@
               parent="school_sub_menu"
               action="action_school_profile"
               sequence="0"/>
+
+    <menuitem id="url_test"
+              name="Url Test"
+              parent="school_sub_menu"
+              action="action_url_school_profile"
+              sequence="0"/>
+
     <menuitem id="student_profile_menu"
               name="Student Profile"
               parent="student_sub_menu"

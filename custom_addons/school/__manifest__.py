@@ -17,6 +17,8 @@
         'views/student_view.xml',
         'views/menu.xml',
         'data/delete_data.xml',
+        'reports/student_report_template.xml',
+        'reports/inherit_qweb_template.xml',
     ],
     'demo': [
         'demo/demo_school_data.xml',

@@ -15,4 +15,11 @@
         <field name="email">viva@email.com</field>
         <field name="phone">888853356</field>
     </record>
+
+    <record id="school_sequence" model="ir.sequence">
+        <field name="name">School code</field>
+        <field name="code">school.profile</field>
+        <field name="prefix">SC</field>
+        <field name="number_increment" eval="1"/>
+    </record>
 </odoo>

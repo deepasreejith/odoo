@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="student_profile_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+<!--               <t t-call="school.template_calling_test"/>-->
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <h1 t-att="['style','background-color:red;']">
+                            hello
+                        </h1>
+                        <a t-att-href="o.school_id.email">Google</a>
+<!--                        t-field and t-esc is used for same purpose.the diff is t-field used for accessing fields or object in model.but t-esc used also accessing own creating object-->
+                        <t t-set="a" t-value="12345" />
+                        <t t-esc="a"/>
+<!--                        t-out used instead of t-esc in odoo15 version and above-->
+                        <t t-out="a"/>
+                        <h1 t-field="o.name" />
+                        <t t-esc="o.school_id.name"/>
+
+<!--                        <t t-if="o.name == 'test'">-->
+<!--                            <p>Yes this is <span t-esc="o.name"/></p>-->
+<!--                        </t>-->
+<!--                        <t t-elif="o.name == 'student2'">-->
+<!--                            <p>Yes this is <span t-esc="o.name"/></p>-->
+<!--                        </t>-->
+<!--                        <t t-else="">-->
+<!--                            <p>This not <span t-esc="o.name"/></p>-->
+<!--                        </t>-->
+                         <p t-if="o.name == 'test'">Yes this is <span t-esc="o.name"/></p>
+                        <p t-elif="o.name == 'Student2'">Yes this is <span t-esc="o.name"/></p>
+                        <p t-else="">This not  <span t-esc="o.name"/></p>
+
+                        <t t-foreach="o.school_id.student_ids" t-as="rec">
+                            <h4 t-esc="rec.name"/>
+                        </t>
+                        <img t-att-src="'/report/barcode/QR/%s'%(o.name)"
+                            width="80" height="80" alt="Barcode"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="template_calling_test">
+
+    </template>
+
+    <record id="school_student_report" model="ir.actions.report">
+        <field name="name">Student Card</field>
+        <field name="model">student.profile</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">school.student_profile_report</field>
+        <field name="report_file">school.student_profile_report</field>
+        <field name="print_report_name">'Student - %s' % (object.name).replace('/', '')</field>
+        <field name="binding_model_id" ref="model_student_profile"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

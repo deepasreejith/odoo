@@ -5,6 +5,7 @@ class SchoolProfile(models.Model):
     _name = 'school.profile'
     _rec_name = 'name'
 
+    sequence = fields.Char(string='School Code',readonly=1)
     name = fields.Char(string='School Name',copy=False)
     email = fields.Char(string='Email')
     phone = fields.Char(string='Phone')
@@ -35,6 +36,12 @@ class SchoolProfile(models.Model):
             else:
                 rec.auto_rank = 0
 
+    @api.model
+    def create(self, vals):
+        print("create method called")
+        vals['sequence'] = self.env['ir.sequence'].next_by_code('school.profile')
+        rtn = super(SchoolProfile, self).create(vals)
+        return rtn
     @api.model
     def name_create(self, name):
         print("name_create method called")

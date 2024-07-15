@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template inherit_id="student_profile_report" id="extend_qweb_template">
+        <xpath expr="//div[hasclass('page')]" position="replace">
+            <div class="page">
+                <h3>
+                    I am extend page
+                </h3>
+            </div>
+        </xpath>
+    </template>
+</odoo>
