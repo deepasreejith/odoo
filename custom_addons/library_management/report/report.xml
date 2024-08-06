@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_library_report" model="ir.actions.report">
+        <field name="name">Library Report</field>
+        <field name="model">library.book</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">library_management.library_report_template</field>
+        <field name="report_file">library_management.library_report_template</field>
+        <field name="print_report_name">'%s' % (object.name).replace('/', '')</field>
+        <field name="binding_model_id" ref="model_library_book"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

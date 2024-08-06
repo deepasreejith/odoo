@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="library_report_template">
+        <t t-call="web.basic_layout">
+            <h2>Library Books Report</h2>
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+                    <p>
+                        <strong>Title:</strong>
+                        <t t-esc="doc.name"/>
+                        <br/>
+                        <strong>Author:</strong>
+                        <t t-esc="doc.author_id.name"/>
+                        <br/>
+                        <strong>ISBN:</strong>
+                        <t t-esc="doc.isbn"/>
+                        <br/>
+                        <strong>Published Date:</strong>
+                        <t t-esc="doc.published_date"/>
+                    </p>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
