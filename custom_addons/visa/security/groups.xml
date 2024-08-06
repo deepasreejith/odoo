@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Define Groups -->
+    <record id="group_visa_user" model="res.groups">
+        <field name="name">Visa User</field>
+    </record>
+
+    <record id="group_visa_manager" model="res.groups">
+        <field name="name">Visa Manager</field>
+    </record>
+
+     <!-- Record Rule for Visa User: Only see their own records -->
+    <record id="visa_application_user_rule" model="ir.rule">
+        <field name="name">Visa application user rule</field>
+        <field name="model_id" ref="model_visa_application"/>
+        <field name="groups" eval="[(4, ref('visa.group_visa_user'))]"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+    </record>
+
+    <!-- Record Rule for Visa Manager: See all records -->
+    <record id="visa_application_manager_rule" model="ir.rule">
+        <field name="name">Visa application manager rule</field>
+        <field name="model_id" ref="model_visa_application"/>
+        <field name="groups" eval="[(4, ref('visa.group_visa_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+</odoo>

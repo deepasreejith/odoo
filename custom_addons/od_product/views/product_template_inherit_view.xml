@@ -60,8 +60,8 @@
               parent="sale.product_menu_catalog"
               sequence="11"/>
 
-    <record id="sale.product_template_action" model="ir.actions.act_window">
-        <field name="name">Products(consumable and services)</field>
-        <field name="limit">40</field>
-    </record>
+<!--    <record id="sale.product_template_action" model="ir.actions.act_window">-->
+<!--        <field name="name">Products(consumable and services)</field>-->
+<!--        <field name="limit">40</field>-->
+<!--    </record>-->
 </odoo>
