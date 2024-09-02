@@ -34,20 +34,20 @@ class HospitalPatient(models.Model):
         for rec in self:
             rec.display_name = f"[{rec.ref}] {rec.name}"
     @api.depends('appointment_ids')
-    # def _compute_appointment_count(self):
-    #     for rec in self:
-    #         print(rec.id)
-    #         rec.appointment_count = self.env['hospital.appointment'].search_count([('patient_id','=',rec.id)])
-    # using rea_group orm method below:
     def _compute_appointment_count(self):
-        appointment_group = self.env['hospital.appointment'].read_group(domain=[],fields=['patient_id'],groupby=['patient_id'])
-
-        for appoinment in appointment_group:
-            patient_id = appoinment.get('patient_id')[0]
-            patient_rec = self.browse(patient_id)
-            patient_rec.appointment_count = appoinment['patient_id_count']
-            self = self - patient_rec
-        self.appointment_count = 0
+        for rec in self:
+            print(rec.id)
+            rec.appointment_count = self.env['hospital.appointment'].search_count([('patient_id','=',rec.id)])
+    # using rea_group orm method below:
+    # def _compute_appointment_count(self):
+    #     appointment_group = self.env['hospital.appointment'].read_group(domain=[],fields=['patient_id'],groupby=['patient_id'])
+    #
+    #     for appoinment in appointment_group:
+    #         patient_id = appoinment.get('patient_id')[0]
+    #         patient_rec = self.browse(patient_id)
+    #         patient_rec.appointment_count = appoinment['patient_id_count']
+    #         self = self - patient_rec
+    #     self.appointment_count = 0
 
     @api.constrains('date_of_birth')
     def _check_date_of_birth(self):

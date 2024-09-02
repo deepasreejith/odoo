@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.module.category" id="module_category_crm">
+        <field name="name">CRM</field>
+        <field name="sequence">7</field>
+    </record>
+
+    <record id="group_restricted_stage_move" model="res.groups">
+        <field name="name">Restricted Stage Movement</field>
+        <field name="category_id" ref="crm_stage_restriction.module_category_crm"/>
+        <field name="implied_ids" eval="[(6, 0, [ref('base.group_user')])]"/>
+        <field name="comment">The user will be able to move different stages in pipeline</field>
+    </record>
+</odoo>
