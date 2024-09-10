@@ -5,7 +5,7 @@ class SchoolProfile(models.Model):
     _name = 'school.profile'
     _rec_name = 'name'
 
-    sequence = fields.Char(string='School Code',readonly=1)
+    sequence = fields.Char(string='School Code',readonly=True)
     name = fields.Char(string='School Name',copy=False)
     email = fields.Char(string='Email')
     phone = fields.Char(string='Phone')

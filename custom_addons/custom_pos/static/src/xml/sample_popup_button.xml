@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="custom_pos.SamplePopupButton" owl="1">
+        <div class="popup-content p-4 rounded shadow-sm" style="background-color: #fff; max-width: 500px; margin: auto;">
+            <h2 class="text-center mb-4 font-weight-bold" t-esc="props.title"/>
+            <input
+                t-ref="inputRef"
+                type="number"
+                class="form-control mb-4"
+                placeholder="Enter a number"
+                style="width: 100%; padding: 10px; border-radius: 4px;"
+            />
+            <div class="d-flex justify-content-between">
+                <button
+                    class="btn btn-secondary flex-fill mr-2 py-2"
+                    style="border-radius: 4px;"
+                    t-on-click="cancel">
+                    <t t-esc="props.closePopup" />
+                </button>
+                <button
+                    class="btn btn-primary flex-fill py-2"
+                    style="border-radius: 4px;"
+                    t-on-click="confirm">
+                    <t t-esc="props.confirmText" />
+                </button>
+            </div>
+        </div>
+    </t>
+
+</templates>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="custom_pos.SampleButton" owl="1">
+       <button class="control-button btn btn-light rounded-0 fw-bolder"
+            t-on-click="() => this.click()">
+            Custom Popup
+       </button>
+    </t>
+</templates>
