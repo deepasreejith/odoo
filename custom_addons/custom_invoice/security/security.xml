@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="custom_invoice.module_category_invoice" model="ir.module.category">
+            <field name="name">Manager/Director</field>
+            <field name="sequence">1</field>
+    </record>
+    <!-- Sales Custom Manager Group -->
+    <record id="group_sales_custom_manager" model="res.groups">
+        <field name="name">Sales Custom Manager</field>
+        <field name="category_id" ref="custom_invoice.module_category_invoice"/>
+    </record>
+
+    <!-- Sales Custom Director Group -->
+    <record id="group_sales_custom_director" model="res.groups">
+        <field name="name">Sales Custom Director</field>
+        <field name="category_id" ref="custom_invoice.module_category_invoice"/>
+    </record>
+</odoo>
