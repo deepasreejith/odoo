@@ -1,0 +1,66 @@
+.password-display {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+    background-color: #f7f7f7;
+    width: 100%;
+}
+
+.numberpad {
+    display: grid;
+    grid-template-columns: repeat(3, 80px); /* 3 columns */
+    gap: 10px;
+    justify-content: center;
+}
+
+.number-button, .clear-button, .delete-button {
+    width: 80px;
+    height: 80px;
+    font-size: 24px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.number-button:active, .clear-button:active, .delete-button:active {
+    background-color: #ddd;
+}
+
+.delete-button {
+    font-size: 24px;
+    background-color: #ff4d4f;
+    color: white;
+}
+
+.popup-footer {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.confirm-button, .cancel-button {
+    width: 100px;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.confirm-button {
+    background-color: #28a745;
+}
+
+.cancel-button {
+    background-color: #dc3545;
+}
+

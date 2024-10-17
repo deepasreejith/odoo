@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_pos_config_form_inherit" model="ir.ui.view">
+            <field name="name">pos.config.form.inherit</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <group>
+                        <field name="delete_order_password" placeholder="Set Password" string="Delete Order Password"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
