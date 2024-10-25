@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_sales_order_attachment_kanban" model="ir.ui.view">
+        <field name="name">sales.order.attachment.kanban</field>
+        <field name="model">ir.attachment</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-foreach="records" t-as="record">
+                        <div class="o_kanban_card">
+                            <div class="o_kanban_details">
+                                <strong><t t-esc="record.name"/></strong>
+                                <div>
+                                    <t t-esc="record.datas"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_sales_order_attachment" model="ir.actions.act_window">
+        <field name="name">Attachments</field>
+        <field name="res_model">ir.attachment</field>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="custom_sales.view_sales_order_attachment_kanban"/>
+        <field name="domain">[('res_model', '=', 'sale.order'), ('res_id', '=', active_id)]</field>
+    </record>
+
+</odoo>
