@@ -1,0 +1,83 @@
+<odoo>
+    <record id="penalty_notice_form_view_tree" model="ir.ui.view">
+        <field name="name">penalty.notice.form.view.tree</field>
+        <field name="model">penalty.notice.form</field>
+        <field name="arch" type="xml">
+            <tree string="Penalty Notice Form">
+                <field name="name" />
+                <field name="employee_id" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="state" decoration-success="state == 'submitted'" widget="badge" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="penalty_notice_form_view_form" model="ir.ui.view">
+        <field name="name">penalty.notice.form.view.form</field>
+        <field name="model">penalty.notice.form</field>
+        <field name="arch" type="xml">
+            <form string="Penalty Notice Form">
+                <header>
+                    <button name="action_confirm" data-hotkey="q" string="Submit" type="object"
+                        class="oe_highlight" invisible="state != 'draft'" />
+                    <button name="action_approve" string="Approve" type="object"
+                        class="oe_highlight"
+                        invisible="state != 'submitted' or user_id != uid" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. Penalty Notice" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_id" invisible="1" />
+                            <field name="employee_id" readonly="state != 'draft'" />
+                            <field name="signature" widget="signature" />
+                        </group>
+                        <group>
+                            <field name="request_date" readonly="state != 'draft'" />
+                            <field name="create_uid" />
+                            <field name="company_id" readonly="state != 'draft'"
+                                groups="base.group_multi_company" />
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note" readonly="state != 'draft'" />
+                    </group>
+                    <notebook>
+                        <page name="penalty_notices" string="Penalty Notices">
+                            <field name="line_ids" nolabel="1" readonly="state != 'draft'">
+                                <tree editable="bottom">
+                                    <field name="form_id" column_invisible="1" />
+                                    <field name="name" />
+                                    <field name="amount" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                    <field name="activity_ids" widget="mail_activity" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="penalty_notice_form_action" model="ir.actions.act_window">
+        <field name="name">Penalty Notice Form</field>
+        <field name="res_model">penalty.notice.form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="penalty_notice_form_menu"
+        name="Penalty Notice"
+        parent="hr.menu_hr_root"
+        action="penalty_notice_form_action"
+        sequence="30" />
+</odoo>

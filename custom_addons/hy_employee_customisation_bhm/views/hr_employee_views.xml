@@ -1,0 +1,34 @@
+<odoo>
+    <record id="view_employee_form_inherit_employee_customisation_bhm" model="ir.ui.view">
+        <field name="name">view.employee.form.inherit.employee.customisation.bhm</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_view_visit_form"
+                    class="oe_stat_button"
+                    icon="fa-file-text"
+                    groups="hy_employee_customisation_bhm.group_employee_visit_form"
+                    type="object">
+                    <field name="employee_visit_form_count" widget="statinfo" string="Visit Forms" />
+                </button>
+                <button name="action_view_penalty_form"
+                    class="oe_stat_button"
+                    icon="fa-file-text"
+                    type="object">
+                    <field name="employee_visit_form_count" widget="statinfo" string="Penalties" />
+                </button>
+            </div>
+            <page name="personal_information" position="after">
+                <page name="employee_tasks" string="Tasks">
+                    <field name="employee_task_ids">
+                        <tree name="Tasks" editable="bottom">
+                            <field name="name" />
+                            <field name="description" />
+                        </tree>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>

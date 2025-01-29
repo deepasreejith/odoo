@@ -1,0 +1,40 @@
+<odoo>
+
+    <record id="employee_custody_type_form_view" model="ir.ui.view">
+        <field name="name">employee.custody.type.form.view</field>
+        <field name="model">employee.custody.type</field>
+        <field name="arch" type="xml">
+            <form string="Employee Custody Type">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="employee_custody_type_tree_view" model="ir.ui.view">
+        <field name="name">employee.custody.type.tree.view</field>
+        <field name="model">employee.custody.type</field>
+        <field name="arch" type="xml">
+            <tree string="Employee Custody Type">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="employee_custody_type_action" model="ir.actions.act_window">
+        <field name="name">Employee Custody Type</field>
+        <field name="res_model">employee.custody.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="employee_custody_type_menu"
+        name="Employee Custody Type"
+        parent="hr.menu_hr_root"
+        action="employee_custody_type_action"
+        sequence="45" />
+
+</odoo>

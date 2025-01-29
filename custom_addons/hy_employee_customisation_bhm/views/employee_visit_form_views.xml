@@ -1,0 +1,76 @@
+<odoo>
+    <record id="employee_visit_form_view_tree" model="ir.ui.view">
+        <field name="name">employee.visit.form.view.tree</field>
+        <field name="model">employee.visit.form</field>
+        <field name="arch" type="xml">
+            <tree string="Visit Form">
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="visited_date" />
+                <field name="purpose" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="state" decoration-success="state == 'submitted'" widget="badge" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="employee_visit_form_view_form" model="ir.ui.view">
+        <field name="name">employee.visit.form.view.form</field>
+        <field name="model">employee.visit.form</field>
+        <field name="arch" type="xml">
+            <form string="Visit Form">
+                <header>
+                    <button name="action_confirm" data-hotkey="q" string="Submit" type="object"
+                        class="oe_highlight" invisible="state != 'draft'" />
+                    <button name="action_approve" string="Approve" type="object"
+                        class="oe_highlight"
+                        invisible="state != 'submitted' or user_id != uid" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. Visit" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="state != 'draft'" />
+                            <field name="purpose" readonly="state != 'draft'" />
+                            <field name="signature" widget="signature" />
+                            <field name="user_id" invisible="1" />
+                        </group>
+                        <group>
+                            <field name="visited_date" readonly="state != 'draft'" />
+                            <field name="create_uid" />
+                            <field name="company_id" readonly="state != 'draft'"
+                                groups="base.group_multi_company" />
+                        </group>
+                    </group>
+                    <group>
+                        <field name="summary" readonly="state != 'draft'" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                    <field name="activity_ids" widget="mail_activity" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="employee_visit_form_action" model="ir.actions.act_window">
+        <field name="name">Visit Form</field>
+        <field name="res_model">employee.visit.form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="employee_visit_form_menu"
+        name="Visit Form"
+        parent="hr.menu_hr_root"
+        groups="hy_employee_customisation_bhm.group_employee_visit_form"
+        action="employee_visit_form_action"
+        sequence="10" />
+</odoo>

@@ -1,0 +1,193 @@
+<odoo>
+    <data noupdate="0">
+        <record id="group_employee_visit_form" model="res.groups">
+            <field name="name">Employee Visit Form</field>
+        </record>
+
+        <record id="group_employee_request_form" model="res.groups">
+            <field name="name">Employee Request Form</field>
+        </record>
+
+
+        <record id="employee_request_form_company_rule" model="ir.rule">
+            <field name="name">Employee Request form company rule</field>
+            <field name="model_id" ref="model_employee_request_form" />
+            <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        </record>
+
+        <record id="employee_request_form_manager_rule" model="ir.rule">
+            <field name="name">Employee request form manager rule</field>
+            <field name="model_id" ref="model_employee_request_form" />
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]" />
+        </record>
+
+        <record id="employee_request_form_user_rule" model="ir.rule">
+            <field name="name">Employee request form user rule</field>
+            <field name="model_id" ref="model_employee_request_form" />
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]" />
+        </record>
+
+        <record id="employee_visit_form_company_rule" model="ir.rule">
+            <field name="name">Employee visit form company rule</field>
+            <field name="model_id" ref="model_employee_visit_form" />
+            <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        </record>
+
+        <record id="employee_visit_form_manager_rule" model="ir.rule">
+            <field name="name">Employee visit form manager rule</field>
+            <field name="model_id" ref="model_employee_visit_form" />
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]" />
+        </record>
+
+        <record id="employee_visit_form_user_rule" model="ir.rule">
+            <field name="name">Employee visit form user rule</field>
+            <field name="model_id" ref="model_employee_visit_form" />
+            <field name="domain_force">[('create_uid', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]" />
+        </record>
+
+        <record id="employee_penalty_form_company_rule" model="ir.rule">
+            <field name="name">Employee penalty form company rule</field>
+            <field name="model_id" ref="model_employee_penalty_form" />
+            <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        </record>
+
+        <record id="employee_penalty_form_manager_rule" model="ir.rule">
+            <field name="name">Employee penalty form manager rule</field>
+            <field name="model_id" ref="model_employee_penalty_form" />
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]" />
+        </record>
+
+        <record id="employee_penalty_form_user_rule" model="ir.rule">
+            <field name="name">Employee penalty form user rule</field>
+            <field name="model_id" ref="model_employee_penalty_form" />
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]" />
+        </record>
+
+        <record id="employee_bonus_form_company_rule" model="ir.rule">
+            <field name="name">Employee bonus form company rule</field>
+            <field name="model_id" ref="model_employee_bonus_form" />
+            <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        </record>
+
+        <record id="employee_bonus_form_manager_rule" model="ir.rule">
+            <field name="name">Employee bonus form manager rule</field>
+            <field name="model_id" ref="model_employee_bonus_form" />
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]" />
+        </record>
+
+        <record id="employee_bonus_form_user_rule" model="ir.rule">
+            <field name="name">Employee bonus form user rule</field>
+            <field name="model_id" ref="model_employee_bonus_form" />
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]" />
+        </record>
+
+
+        <record id="trip_allowance_form_company_rule" model="ir.rule">
+            <field name="name">Trip Allowance form company rule</field>
+            <field name="model_id" ref="model_trip_allowance_form" />
+            <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        </record>
+
+        <record id="trip_allowance_form_manager_rule" model="ir.rule">
+            <field name="name">Trip Allowance form manager rule</field>
+            <field name="model_id" ref="model_trip_allowance_form" />
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]" />
+        </record>
+
+        <record id="trip_allowance_form_user_rule" model="ir.rule">
+            <field name="name">Trip Allowance form user rule</field>
+            <field name="model_id" ref="model_trip_allowance_form" />
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]" />
+        </record>
+
+        <record id="penalty_notice_form_company_rule" model="ir.rule">
+            <field name="name">Penalty Notice form company rule</field>
+            <field name="model_id" ref="model_penalty_notice_form" />
+            <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        </record>
+
+        <record id="penalty_notice_form_manager_rule" model="ir.rule">
+            <field name="name">Penalty Notice form manager rule</field>
+            <field name="model_id" ref="model_penalty_notice_form" />
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]" />
+        </record>
+
+        <record id="penalty_notice_form_user_rule" model="ir.rule">
+            <field name="name">Penalty Notice form user rule</field>
+            <field name="model_id" ref="model_penalty_notice_form" />
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]" />
+        </record>
+
+        <record id="employee_salary_form_company_rule" model="ir.rule">
+            <field name="name">Employee salary form company rule</field>
+            <field name="model_id" ref="model_employee_salary_form" />
+            <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        </record>
+
+        <record id="employee_salary_form_manager_rule" model="ir.rule">
+            <field name="name">Employee salary form manager rule</field>
+            <field name="model_id" ref="model_employee_salary_form" />
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]" />
+        </record>
+
+        <record id="employee_salary_form_user_rule" model="ir.rule">
+            <field name="name">Employee salary form user rule</field>
+            <field name="model_id" ref="model_employee_salary_form" />
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]" />
+        </record>
+
+        <record id="employee_overtime_form_company_rule" model="ir.rule">
+            <field name="name">Employee Overtime form company rule</field>
+            <field name="model_id" ref="model_employee_overtime_form" />
+            <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        </record>
+
+        <record id="employee_overtime_form_manager_rule" model="ir.rule">
+            <field name="name">Employee Overtime form manager rule</field>
+            <field name="model_id" ref="model_employee_overtime_form" />
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]" />
+        </record>
+
+        <record id="employee_overtime_form_user_rule" model="ir.rule">
+            <field name="name">Employee Overtime form user rule</field>
+            <field name="model_id" ref="model_employee_overtime_form" />
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]" />
+        </record>
+
+        <record id="employee_custody_form_company_rule" model="ir.rule">
+            <field name="name">Employee Custody form company rule</field>
+            <field name="model_id" ref="model_employee_custody_form" />
+            <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        </record>
+
+        <record id="employee_custody_form_manager_rule" model="ir.rule">
+            <field name="name">Employee Custody form manager rule</field>
+            <field name="model_id" ref="model_employee_custody_form" />
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]" />
+        </record>
+
+        <record id="employee_custody_form_user_rule" model="ir.rule">
+            <field name="name">Employee Custody form user rule</field>
+            <field name="model_id" ref="model_employee_custody_form" />
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]" />
+        </record>
+    </data>
+</odoo>

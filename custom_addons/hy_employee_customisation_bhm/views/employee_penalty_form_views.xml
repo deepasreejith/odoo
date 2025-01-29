@@ -1,0 +1,112 @@
+<odoo>
+    <record id="employee_penalty_form_view_tree" model="ir.ui.view">
+        <field name="name">employee.penalty.form.view.tree</field>
+        <field name="model">employee.penalty.form</field>
+        <field name="arch" type="xml">
+            <tree string="penalty Form">
+                <field name="name" />
+                <field name="employee_id" />
+                <field name="date" />
+                <field name="warning_type_id" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="state" decoration-success="state == 'submitted'" widget="badge" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="employee_penalty_form_view_form" model="ir.ui.view">
+        <field name="name">employee.penalty.form.view.form</field>
+        <field name="model">employee.penalty.form</field>
+        <field name="arch" type="xml">
+            <form string="penalty Form">
+                <header>
+                    <button name="action_confirm" data-hotkey="q" string="Submit" type="object"
+                        class="oe_highlight" invisible="state != 'draft'" />
+                    <button name="action_approve" string="Approve" type="object"
+                        class="oe_highlight"
+                        invisible="state != 'submitted' or user_id != uid" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. Penalty" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_id" invisible="1" />
+                            <field name="employee_id" readonly="state != 'draft'" />
+                            <field name="signature" widget="signature" />
+                        </group>
+                        <group>
+                            <field name="warning_type_id" readonly="state != 'draft'" />
+                            <field name="date" readonly="state != 'draft'" />
+                            <field name="create_uid" />
+                            <field name="company_id" readonly="state != 'draft'"
+                                groups="base.group_multi_company" />
+                        </group>
+                    </group>
+                    <group>
+                        <field name="summary" readonly="state != 'draft'" />
+                    </group>
+                    <notebook>
+                        <page name="penalties" string="Penalties">
+                            <field name="line_ids" nolabel="1" readonly="state != 'draft'">
+                                <tree editable="bottom">
+                                    <field name="form_id" column_invisible="1" />
+                                    <field name="type_of_violation" />
+                                    <field name="date" />
+                                    <field name="no_of_repetition" />
+                                    <field name="penalty" />
+                                    <field name="total_deduction" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                    <field name="activity_ids" widget="mail_activity" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="penalty_warning_type_view_tree" model="ir.ui.view">
+        <field name="name">penalty.warning.type.view.tree</field>
+        <field name="model">penalty.warning.type</field>
+        <field name="arch" type="xml">
+            <tree string="Warning Type" editable="bottom">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="penalty_warning_type_action" model="ir.actions.act_window">
+        <field name="name">Warning Types</field>
+        <field name="res_model">penalty.warning.type</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="employee_penalty_form_action" model="ir.actions.act_window">
+        <field name="name">Penalty Form</field>
+        <field name="res_model">employee.penalty.form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="penalty_warning_type_menu"
+        name="Warning Types"
+        parent="hr.menu_config_employee"
+        action="penalty_warning_type_action"
+        sequence="10" />
+
+    <menuitem
+        id="employee_penalty_form_menu"
+        name="Penalty Form"
+        parent="hr.menu_hr_root"
+        action="employee_penalty_form_action"
+        sequence="10" />
+</odoo>
