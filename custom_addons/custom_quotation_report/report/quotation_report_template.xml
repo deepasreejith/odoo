@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="my_qo_layout">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <div class="header">
+            <div class="row" style="report_header_style">
+                <div class="row">
+                    <div class="col-6">
+                        <img alt="img" t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                             style="max-height: 30px; max-width: 100%;"/>
+                        <br/>
+                        <strong t-esc="company.name"/>
+                        <br/>
+                    </div>
+                    <div class="col-6 offset-2" style="margin-top: 2rem;">
+                        <p>
+                            Providing cost saving solution
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="article o_report_layout_standard">
+            <hr style="border: 1px solid black; margin: 10px 0;"/>
+            <t t-out="0"/>
+        </div>
+
+        <div class="footer o_standard_footer" style="border-top: 2px solid black;">
+            <div class="row">
+                <!-- Left Section: Company Logo & Address -->
+                <div class="col-4 text-left">
+                    <img alt="img" t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                         style="max-height: 30px; max-width: 100%;"/>
+                    <br/>
+                    <strong t-esc="company.name"/>
+                    <br/>
+                    <span t-esc="company.city"/>
+                    <br/>
+                    <span t-esc="company.email"/>
+                    <br/>
+                    <span t-esc="company.phone"/>
+                </div>
+
+                <!-- Center Section: Website -->
+                <div class="col-4 text-center">
+                    <a t-att-href="company.website" t-esc="company.website" target="_blank"/>
+                </div>
+
+                <!-- Right Section:Company Logo & Address-->
+                <div class="col-4 text-right">
+                    <img alt="img" t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                         style="max-height: 30px; max-width: 100%;"/>
+                    <br/>
+                    <strong t-esc="company.name"/>
+                    <br/>
+                    <span t-esc="company.city"/>
+                    <br/>
+                    <span t-esc="company.email"/>
+                    <br/>
+                    <span t-esc="company.phone"/>
+                </div>
+            </div>
+        </div>
+
+    </template>
+
+    <template id="quotation_order_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="custom_quotation_report.my_qo_layout">
+                    <div class="row">
+                        <div class="col-6" style="">
+                            <span>
+                                <strong>Client Address:</strong>
+                            </span>
+                            <br/>
+                            <span>
+                                <strong>Name:</strong>
+                                <t t-esc="doc.partner_id.name"/>
+                            </span>
+                            <br/>
+                            <span>
+                                <strong>Address:</strong>
+                            </span>
+                            <br/>
+                            <span t-esc="doc.partner_id.street"/>
+                            <br/>
+                            <span t-esc="doc.partner_id.city"/>
+                            <br/>
+                            <span t-esc="doc.partner_id.zip"/>
+                            <br/>
+                            <span t-esc="doc.partner_id.country_id.name"/>
+                            <br/>
+                            <strong>Tel:</strong>
+                            <span t-esc="doc.partner_id.phone"/>
+                            <br/>
+                            <strong>Email:</strong>
+                            <span t-esc="doc.partner_id.email"/>
+                        </div>
+                        <div class="col-4">
+                            <span>
+                                <strong>Client Delivery Address:</strong>
+                            </span>
+                            <br/>
+                            <span>
+                                <strong>Name:</strong>
+                                <span t-esc="doc.partner_shipping_id.name"/>
+                            </span>
+                            <br/>
+                            <span>
+                                <strong>Address:</strong>
+                            </span>
+                            <br/>
+                            <span t-esc="doc.partner_shipping_id.street"/>
+                            <br/>
+                            <span t-esc="doc.partner_shipping_id.city"/>
+                            <br/>
+                            <span t-esc="doc.partner_shipping_id.zip"/>
+                            <br/>
+                            <span t-esc="doc.partner_shipping_id.country_id.name"/>
+                            <br/>
+                            <strong>Tel:</strong>
+                            <span t-esc="doc.partner_shipping_id.phone"/>
+                            <br/>
+                            <strong>Email:</strong>
+                            <span t-esc="doc.partner_shipping_id.email"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <h3>Quotation N°
+                        <t t-esc="doc.name"/>
+                    </h3>
+                    <br/>
+                    <div class="row">
+                        <div class="col-6" style="">
+                            <strong>Quotation Date:</strong>
+                            <t t-esc="doc.date_order"/>
+                        </div>
+                        <div class="col-6" style="">
+                            <strong>Salesperson:</strong>
+                            <t t-esc="doc.user_id.name"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <table class="table" style="border-color:black;">
+                        <thead>
+                            <tr>
+                                <th>SI.No.</th>
+                                <th>Item Code &amp; Description</th>
+                                <th>Qty</th>
+                                <th>Unit Price</th>
+                                <th>Disc. (%)</th>
+                                <th>Disc. value</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="serial_number" t-value="1"/>
+                            <t t-foreach="doc.order_line" t-as="line">
+                                <tr>
+                                    <td>
+                                        <t t-esc="serial_number"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.product_id.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.product_uom_qty"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.price_unit"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.discount"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="(line.price_unit * line.product_uom_qty * line.discount) / 100"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="line.price_subtotal"/>
+                                    </td>
+                                </tr>
+                                <t t-set="serial_number" t-value="serial_number + 1"/>
+                            </t>
+                        </tbody>
+                    </table>
+                    <div class="row" style="display: flex; justify-content: space-between; margin-top: 20px;">
+                        <!-- Left Side: Amount in Words -->
+                        <div class="col-6">
+                            <strong>Amount In Words:</strong>
+                            <span t-esc="doc.amount_words"/>
+                        </div>
+
+                        <!-- Right Side: Total Details -->
+                        <div class="col-6" style="text-align: right;">
+                            <div>
+                                <strong>Total(without Discount):</strong>
+                                <t t-set="total_without_discount"
+                                   t-value="sum(line.price_unit * line.product_uom_qty for line in doc.order_line)"/>
+                                <t t-esc="'%.2f' % total_without_discount"/>
+                            </div>
+                            <div>
+                                <strong>Discount %:</strong>
+                                <t t-set="total_discount_value"
+                                   t-value="sum((line.price_unit * line.product_uom_qty * line.discount) / 100 for line in doc.order_line)"/>
+                                <t t-set="discount_percentage"
+                                   t-value="(total_discount_value / total_without_discount) * 100 if total_without_discount else 0"/>
+                                <t t-esc="'%.2f' % discount_percentage"/>
+                            </div>
+                            <div>
+                                <strong>Discount Value:</strong>
+                                <t t-esc="'-%.2f' % total_discount_value"/>
+                            </div>
+                            <div>
+                                <strong>Grand Total:</strong>
+                                <t t-set="grand_total" t-value="total_without_discount - total_discount_value"/>
+                                <t t-esc="'%.2f' % grand_total"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 20px; border: 2px solid black;">
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid black; padding: 5px;">Prepared By</th>
+                                <th style="border: 1px solid black; padding: 5px;">Approved By</th>
+                                <th style="border: 1px solid black; padding: 5px;">Received By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <strong>Name:</strong>
+                                    <br/>
+                                    <strong>Signature:</strong>
+                                    <br/>
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <strong>Name:</strong>
+                                    <br/>
+                                    <strong>Signature:</strong>
+                                    <br/>
+                                </td>
+                                <td style="border: 1px solid black; padding: 5px;">
+                                    <strong>Name:</strong>
+                                    <br/>
+                                    <strong>Mobile Number:</strong>
+                                    <br/>
+                                    <strong>Date:</strong>
+                                    <br/>
+                                    <strong>Signature:</strong>
+                                    <br/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+            </t>
+        </t>
+    </template>
+</odoo>
