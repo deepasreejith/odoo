@@ -4,7 +4,6 @@
         <t t-if="not o" t-set="o" t-value="doc"/>
 
         <t t-if="not company">
-            <!-- Multicompany -->
             <t t-if="company_id">
                 <t t-set="company" t-value="company_id"/>
             </t>
